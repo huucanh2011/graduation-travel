@@ -26,25 +26,34 @@
           <span>Quyền</span>
         </router-link>
       </a-menu-item>
-      <a-sub-menu key="sub1">
-        <span slot="title"><a-icon type="user" /><span>Tài khoản</span></span>
-        <a-menu-item key="4">
-          <router-link :to="{ name: 'admin.partners' }">Đối tác</router-link>
-        </a-menu-item>
-        <a-menu-item key="5">
-          <router-link :to="{ name: 'admin.users' }">Người dùng</router-link>
-        </a-menu-item>
-      </a-sub-menu>
-      <a-menu-item key="6">
+      <a-menu-item key="4">
+        <router-link :to="{ name: 'admin.users' }">
+          <a-icon type="user" />
+          <span>Tài khoản</span>
+        </router-link>
+      </a-menu-item>
+      <a-menu-item key="5">
         <router-link :to="{ name: 'admin.ratings' }">
           <a-icon type="star" />
           <span>Đánh giá</span>
         </router-link>
       </a-menu-item>
+      <a-menu-item key="6">
+        <router-link :to="{ name: 'admin.feedbacks' }">
+          <a-icon type="customer-service" />
+          <span>Phản hồi</span>
+        </router-link>
+      </a-menu-item>
       <a-menu-item key="7">
+        <router-link :to="{ name: 'admin.slides' }">
+          <a-icon type="switcher" />
+          <span>Slide</span>
+        </router-link>
+      </a-menu-item>
+      <a-menu-item key="8">
         <router-link :to="{ name: 'admin.settings' }">
           <a-icon type="setting" />
-          <span>Setting</span>
+          <span>Cài đặt</span>
         </router-link>
       </a-menu-item>
     </a-menu>
@@ -53,7 +62,17 @@
 
 <script>
   export default {
-    props: ["collapsed"]
+    data() {
+      return {
+        collapsed: false
+      };
+    },
+    created() {
+      eventBus.$on("collapsed", e => (this.collapsed = e));
+    },
+    beforeDestroy() {
+      eventBus.$off("collapsed", e => (this.collapsed = e));
+    }
   };
 </script>
 

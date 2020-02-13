@@ -1,13 +1,14 @@
 <template>
-  <div>Role</div>
+  <role-list></role-list>
 </template>
 
 <script>
-export default {
-
-}
+  import RoleList from "@/components/admin/role/RoleList";
+  export default {
+    components: {
+      RoleList
+    }
+  };
 </script>
 
-<style>
-
-</style>
+<style></style>

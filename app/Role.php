@@ -13,8 +13,8 @@ class Role extends Model
         return $this->hasMany(User::class);
     }
 
-    public function setRoleNameAttribute($value)
-    {
-        return $this->attributes['role_name'] = strtolower($value);
-    }
+    // public function setRoleNameAttribute($value)
+    // {
+    //     return $this->attributes['role_name'] = strtolower($value);
+    // }
 }

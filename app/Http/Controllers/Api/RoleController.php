@@ -20,7 +20,7 @@ class RoleController extends BaseController
     public function index()
     {
         return RoleResource::collection(
-            Role::oldest('id')->paginate(10)
+            Role::oldest('id')->paginate(5)
         );
     }
 
@@ -50,7 +50,7 @@ class RoleController extends BaseController
     {
         $role = $this->role->findOrFail($id)->delete();
 
-        return $this->respond(['data' => 'Delete Successfully']);
+        return $this->respondSuccess();
     }
 
     // public function search(Request $request)
