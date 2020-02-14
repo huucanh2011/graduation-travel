@@ -1,29 +1,53 @@
 <template>
-  <a-layout-header style="background: #fff; padding: 0">
+  <a-layout-header class="layout-header">
     <a-icon
       class="trigger"
       :type="collapsed ? 'menu-unfold' : 'menu-fold'"
       @click="handleCollapsed"
     />
 
-    <!-- <a-dropdown placement="bottomRight">
-      <a-avatar style="backgroundColor:#87d068;" icon="user" />
-      <a-menu slot="overlay">
-        <a-menu-item>
-          <a rel="noopener noreferrer" href="#">
-            <a-icon type="user" />
-            Trang cá nhân
-          </a>
-        </a-menu-item>
-        <a-menu-divider />
-        <a-menu-item>
-          <a rel="noopener noreferrer" href="#">
-            <a-icon type="logout" />
-            Đăng xuất
-          </a>
-        </a-menu-item>
-      </a-menu>
-    </a-dropdown> -->
+    <div
+      :style="{ display: 'flex', flexDirection: 'row', alignItems: 'center' }"
+    >
+      <router-link :to="{ name: 'home' }" :style="{ color: '#595959' }">
+        <a-icon type="home" :style="{ fontSize: '18px' }" />
+      </router-link>
+      <a-badge :style="{ margin: '0 30px' }" :count="5">
+        <a-icon type="bell" :style="{ fontSize: '18px' }" />
+      </a-badge>
+      <a-dropdown placement="bottomRight">
+        <div :style="{ cursor: 'pointer' }">
+          <a-avatar
+            :style="{ backgroundColor: '#87d068' }"
+            size="small"
+            icon="user"
+          />
+          <span>ADMIN</span>
+        </div>
+
+        <a-menu slot="overlay">
+          <a-menu-item>
+            <a href="#">
+              <a-icon type="user" />
+              Trang cá nhân
+            </a>
+          </a-menu-item>
+          <a-menu-item>
+            <router-link :to="{ name: 'admin.settings' }">
+              <a-icon type="setting" />
+              Cài đặt
+            </router-link>
+          </a-menu-item>
+          <a-menu-divider />
+          <a-menu-item>
+            <a href="#">
+              <a-icon type="logout" />
+              Đăng xuất
+            </a>
+          </a-menu-item>
+        </a-menu>
+      </a-dropdown>
+    </div>
   </a-layout-header>
 </template>
 

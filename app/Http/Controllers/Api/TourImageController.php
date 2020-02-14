@@ -6,6 +6,7 @@ use App\Tour;
 use App\TourImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\BaseController;
+use Symfony\Component\HttpFoundation\Response;
 
 class TourImageController extends BaseController
 {
@@ -18,20 +19,20 @@ class TourImageController extends BaseController
 
     public function index(Tour $tour)
     {
-        return $this->respond($tour->tourImages);
+        return $this->respondData($tour->tourImages);
     }
 
     public function store(Request $request, Tour $tour)
     {
         $tour->tourImages()->create($request->all());
         
-        return $this->respondSuccess();
+        return $this->respondSuccess(config('message.create_success'), Response::HTTP_CREATED);
     }
 
     public function destroy(Tour $tour, $id)
     {
         $tour->tourDepartures()->findOrFail($id)->delete();
         
-        return $this->respondSuccess();
+        return $this->respondSuccess(config('message.delete_success'));
     }
 }

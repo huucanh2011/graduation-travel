@@ -29,12 +29,12 @@ class TourCategoryController extends BaseController
         $request['slug'] = str_slug($request->cate_name);
         $tourCategory = $this->tourCategory->create($request->all());
 
-        return $this->respond(new TourCategoryResource($tourCategory), Response::HTTP_CREATED);
+        return $this->respondData(new TourCategoryResource($tourCategory), Response::HTTP_CREATED);
     }
 
     public function show($id)
     {
-        return $this->respond(
+        return $this->respondData(
             new TourCategoryResource($this->tourCategory->with(['tours'])->findOrFail($id))
         );
     }
@@ -45,13 +45,13 @@ class TourCategoryController extends BaseController
         $tourCategory = $this->tourCategory->findOrFail($id);
         $tourCategory->update($request->all());
 
-        return $this->respond(new TourCategoryResource($tourCategory));
+        return $this->respondData(new TourCategoryResource($tourCategory), Response::HTTP_ACCEPTED);
     }
 
     public function destroy($id)
     {
         $this->tourCategory->findOrFail($id)->delete();
         
-        return $this->respond(['data' => 'Delete Successfully']);
+        return $this->respondSuccess(config('message.delete_success'));
     }
 }

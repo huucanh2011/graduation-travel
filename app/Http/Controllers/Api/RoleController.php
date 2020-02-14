@@ -28,12 +28,12 @@ class RoleController extends BaseController
     {
         $role = $this->role->create($request->all());
 
-        return $this->respond(new RoleResource($role), Response::HTTP_CREATED);
+        return $this->respondData(new RoleResource($role), Response::HTTP_CREATED);
     }
 
     public function show($id)
     {
-        return $this->respond(
+        return $this->respondData(
             new RoleResource($this->role->findOrFail($id))
         );
     }
@@ -43,14 +43,14 @@ class RoleController extends BaseController
         $role = $this->role->findOrFail($id);
         $role->update($request->all());
 
-        return $this->respond(new RoleResource($role));
+        return $this->respondData(new RoleResource($role), Response::HTTP_ACCEPTED);
     }
 
     public function destroy($id)
     {
         $role = $this->role->findOrFail($id)->delete();
 
-        return $this->respondSuccess();
+        return $this->respondSuccess(config('message.delete_success'));
     }
 
     // public function search(Request $request)

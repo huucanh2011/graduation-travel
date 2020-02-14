@@ -28,12 +28,12 @@ class UserController extends BaseController
     {
         $user = $this->user->create($request->all());
 
-        return $this->respond(new UserResource($user), Response::HTTP_CREATED);
+        return $this->respondData(new UserResource($user), Response::HTTP_CREATED);
     }
 
     public function show($id)
     {
-        return $this->respond(
+        return $this->respondData(
             new UserResource($this->user->findOrFail($id))
         );
     }
@@ -43,13 +43,13 @@ class UserController extends BaseController
         $user = $this->user->findOrFail($id);
         $user->update($request->all());
 
-        return $this->respond(new UserResource($user));
+        return $this->respondData(new UserResource($user), Response::HTTP_ACCEPTED);
     }
 
     public function destroy($id)
     {
         $this->user->findOrFail($id)->delete();
         
-        return $this->respond(['data' => 'Delete Successfully']);
+        return $this->respondSuccess(config('message.delete_success'));
     }
 }

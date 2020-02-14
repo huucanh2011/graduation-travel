@@ -42,6 +42,6 @@ class TourRatingController extends BaseController
     {
         $this->tourRating->findOrFail($id)->delete();
 
-        return $this->respond(['data' => 'Delete Successfully']);
+        return $this->respondSuccess(config('message.delete_success'));
     }
 }

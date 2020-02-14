@@ -36,7 +36,7 @@ class TourController extends BaseController
 
     public function show($id)
     {
-        return $this->respond(
+        return $this->respondData(
             new TourResource($this->tour->with(['tourCategory', 'user'])->findOrFail($id))
         );
     }
@@ -49,14 +49,14 @@ class TourController extends BaseController
 
         // $this->handleUploadImage($tour, $request);
 
-        return $this->respond(new TourResource($tour));
+        return $this->respondData(new TourResource($tour), Response::HTTP_ACCEPTED);
     }
 
     public function destroy($id)
     {
         $this->tour->findOrFail($id)->delete();
         
-        return $this->respond(['data' => 'Delete Successfully']);
+        return $this->respondSuccess(config('message.delete_success'));
     }
 
     private function handleUploadImage($slide, $request)

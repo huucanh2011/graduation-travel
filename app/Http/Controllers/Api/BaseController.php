@@ -8,33 +8,36 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BaseController extends Controller
 {
-    protected function respond($data, $statusCode = 200)
+    protected function respondData($data = NULL, $statusCode = Response::HTTP_OK)
     {
         return response()->json($data, $statusCode);
     }
 
-    protected function respondSuccess()
+    protected function respondSuccess($message, $statusCode = Response::HTTP_OK)
     {
-        return $this->respond(null);
+        $response = [
+            'message' => $message
+        ];
+        
+        return response()->json($response, $statusCode);
     }
 
-    protected function respondError($message, $statusCode)
+    protected function respondError($error, $statusCode = Response::HTTP_NOT_FOUND)
     {
-        return $this->respond([
-            'errors' => [
-                'message' => $message,
-                'status_code' => $statusCode
-            ]
-        ], $statusCode);
+        $response = [
+            'message' => $error
+        ];
+
+        return response()->json($response, $statusCode);
     }
 
-    protected function respondUnauthorized($message = 'Unauthorized')
+    protected function respondUnauthorized($error = 'Unauthorized')
     {
-        return $this->respondError($message, Response::HTTP_UNAUTHORIZED);
+        return $this->respondError($error, Response::HTTP_UNAUTHORIZED);
     }
 
-    protected function respondForbidden($message = 'Forbidden')
+    protected function respondForbidden($error = 'Forbidden')
     {
-        return $this->respondError($message, Response::HTTP_FORBIDDEN);
+        return $this->respondError($error, Response::HTTP_FORBIDDEN);
     }
 }

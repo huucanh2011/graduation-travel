@@ -6,7 +6,10 @@
     collapsible
     v-model="collapsed"
   >
-    <div class="logo" />
+    <router-link :to="{ name: 'home' }">
+      <div class="logo" />
+    </router-link>
+
     <a-menu theme="dark" :defaultSelectedKeys="['1']" mode="inline">
       <a-menu-item key="1">
         <router-link :to="{ name: 'admin.dashboard' }">
@@ -48,12 +51,6 @@
         <router-link :to="{ name: 'admin.slides' }">
           <a-icon type="switcher" />
           <span>Slide</span>
-        </router-link>
-      </a-menu-item>
-      <a-menu-item key="8">
-        <router-link :to="{ name: 'admin.settings' }">
-          <a-icon type="setting" />
-          <span>Cài đặt</span>
         </router-link>
       </a-menu-item>
     </a-menu>

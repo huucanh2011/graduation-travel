@@ -28,12 +28,12 @@ class PaymentController extends BaseController
     {
         $payment = $this->payment->create($request->all());
 
-        return $this->respond(new PaymentResource($payment), Response::HTTP_CREATED);
+        return $this->respondData(new PaymentResource($payment), Response::HTTP_CREATED);
     }
 
     public function show($id)
     {
-        return $this->respond(
+        return $this->respondData(
             new PaymentResource($this->payment->findOrFail($id))
         );
     }
@@ -43,13 +43,13 @@ class PaymentController extends BaseController
         $payment = $this->payment->findOrFail($id);
         $payment->update($request->all());
 
-        return $this->respond(new PaymentResource($payment));
+        return $this->respondData(new PaymentResource($payment), Response::HTTP_ACCEPTED);
     }
 
     public function destroy($id)
     {
         $this->payment->findOrFail($id)->delete();
 
-        return $this->respond(['data' => 'Delete Successfully']);
+        return $this->respondSuccess(config('message.delete_success'));
     }
 }

@@ -7,6 +7,7 @@ use App\TourDeparture;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\BaseController;
+use Symfony\Component\HttpFoundation\Response;
 
 class TourDepartureController extends BaseController
 {
@@ -19,7 +20,7 @@ class TourDepartureController extends BaseController
 
     public function index(Tour $tour)
     {
-        return $this->respond($tour->tourDepartures);
+        return $this->respondData($tour->tourDepartures);
     }
 
     public function store(Request $request, Tour $tour)
@@ -29,13 +30,13 @@ class TourDepartureController extends BaseController
         $request['available_persons'] = $tour->number_persons;
         $tour->tourDepartures()->create($request->all());
 
-        return $this->respondSuccess();
+        return $this->respondSuccess(config('message.create_success'), Response::HTTP_CREATED);
     }
 
     public function destroy(Tour $tour, $id)
     {
         $tour->tourDepartures()->findOrFail($id)->delete();
         
-        return $this->respondSuccess();
+        return $this->respondSuccess(config('message.delete_success'));
     }
 }

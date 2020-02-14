@@ -28,20 +28,20 @@ class FeedbackController extends BaseController
     {
         $feedback = $this->feedback->create($request->all());
 
-        return $this->respond(new FeedbackResource($feedback), Response::HTTP_CREATED);
+        return $this->respondData(new FeedbackResource($feedback), Response::HTTP_CREATED);
     }
 
     public function show($id)
     {
-        return $this->respond(
+        return $this->respondData(
             new FeedbackResource($this->feedback->findOrFail($id))
-        );        
+        );
     }
 
     public function destroy($id)
     {
         $this->feedback->findOrFail($id)->delete();
 
-        return $this->respond(['data' => 'Delete Successfully']);
+        return $this->respondSuccess(config('message.delete_success'));
     }
 }

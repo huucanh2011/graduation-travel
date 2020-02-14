@@ -30,12 +30,12 @@ class SlideController extends BaseController
 
         // $this->handleUploadImage($slide, $request);
 
-        return $this->respond(new SlideResource($slide), Response::HTTP_CREATED);
+        return $this->respondData(new SlideResource($slide), Response::HTTP_CREATED);
     }
 
     public function show($id)
     {
-        return $this->respond(
+        return $this->respondData(
             new SlideResource($this->slide->findOrFail($id))
         );
     }
@@ -47,14 +47,14 @@ class SlideController extends BaseController
 
         // $this->handleUploadImage($slide, $request);
 
-        return $this->respond(new SlideResource($slide));
+        return $this->respondData(new SlideResource($slide), Response::HTTP_ACCEPTED);
     }
 
     public function destroy($id)
     {
         $this->slide->findOrFail($id)->delete();
 
-        return $this->respond(['data' => 'Delete Successfully']);
+        return $this->respondSuccess(config('message.delete_success'));
     }
 
     private function handleUploadImage($slide, $request)
