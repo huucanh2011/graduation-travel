@@ -2,7 +2,7 @@
   <a-layout-header class="layout-header">
     <a-icon
       class="trigger"
-      :type="collapsed ? 'menu-unfold' : 'menu-fold'"
+      :type="collapsed ? 'arrow-right' : 'arrow-left'"
       @click="handleCollapsed"
     />
 
@@ -12,10 +12,21 @@
       <router-link :to="{ name: 'home' }" :style="{ color: '#595959' }">
         <a-icon type="home" :style="{ fontSize: '18px' }" />
       </router-link>
-      <a-badge :style="{ margin: '0 30px' }" :count="5">
-        <a-icon type="bell" :style="{ fontSize: '18px' }" />
-      </a-badge>
-      <a-dropdown placement="bottomRight">
+      <a-dropdown placement="bottomRight" :trigger="['click']">
+        <div :style="{ margin: '0 30px', cursor: 'pointer' }">
+          <a-badge :count="0">
+            <a-icon type="bell" :style="{ fontSize: '18px' }" />
+          </a-badge>
+        </div>
+
+        <a-menu slot="overlay">
+          <a-menu-item>
+            Không có thông báo
+          </a-menu-item>
+        </a-menu>
+      </a-dropdown>
+
+      <a-dropdown placement="bottomRight" :trigger="['click']">
         <div :style="{ cursor: 'pointer' }">
           <a-avatar
             :style="{ backgroundColor: '#87d068' }"

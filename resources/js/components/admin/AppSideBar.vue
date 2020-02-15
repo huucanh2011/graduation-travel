@@ -53,6 +53,18 @@
           <span>Slide</span>
         </router-link>
       </a-menu-item>
+      <a-menu-item key="8">
+        <router-link to="/">
+          <a-icon type="switcher" />
+          <span>Loại tour</span>
+        </router-link>
+      </a-menu-item>
+      <a-menu-item key="9">
+        <router-link to="/">
+          <a-icon type="switcher" />
+          <span>Tour</span>
+        </router-link>
+      </a-menu-item>
     </a-menu>
   </a-layout-sider>
 </template>
@@ -65,10 +77,15 @@
       };
     },
     created() {
-      eventBus.$on("collapsed", e => (this.collapsed = e));
+      eventBus.$on("collapsed",  this.handleCollapsed);
     },
     beforeDestroy() {
-      eventBus.$off("collapsed", e => (this.collapsed = e));
+      eventBus.$off("collapsed", this.handleCollapsed);
+    },
+    methods: {
+      handleCollapsed(e) {
+        this.collapsed = e
+      },
     }
   };
 </script>

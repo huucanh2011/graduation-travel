@@ -30,13 +30,11 @@ class ResetPasswordController extends BaseController
         $user->update(['password' => $request->password]);
         $this->getPasswordResetTableRow($request)->delete();
 
-        return $this->respond(['data' =>  'Password Successfully Changed']);
+        return $this->respondSuccess('Password Successfully Changed');
     }
 
     private function tokenNotFoundResponse()
     {
-        return $this->respondError([
-            'error' => 'Token or Email is incorrect'
-        ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        return $this->respondError('Token or Email is incorrect', Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

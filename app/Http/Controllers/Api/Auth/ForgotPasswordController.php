@@ -30,9 +30,7 @@ class ForgotPasswordController extends BaseController
 
     private function failedResponse()
     {
-        return $this->respondError([
-            'error' => 'Email doesn\'t found on our database'
-        ], Response::HTTP_NOT_FOUND);
+        return $this->respondError('Email doesn\'t found on our database');
     }
 
     private function send($email)
@@ -66,6 +64,6 @@ class ForgotPasswordController extends BaseController
 
     private function successResponse()
     {
-        return $this->respond(['data' => 'Reset Email is send successfully, please check your inbox']);
+        return $this->respondSuccess('Reset Email is send successfully, please check your inbox');
     }
 }

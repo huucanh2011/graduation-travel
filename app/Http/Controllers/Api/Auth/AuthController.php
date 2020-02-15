@@ -63,7 +63,7 @@ class AuthController extends BaseController
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return $this->respondSuccess('Successfully logged out');
     }
 
     public function me()

@@ -1,42 +1,51 @@
+const Dashboard = () => import("@/pages/admin/Dashboard");
+const Permission = () => import("@/pages/admin/Permission");
+const Role = () => import("@/pages/admin/Role");
+const User = () => import("@/pages/admin/User");
+const Rating = () => import("@/pages/admin/Rating");
+const Feedback = () => import("@/pages/admin/Feedback");
+const Slide = () => import("@/pages/admin/Slide");
+const Setting = () => import("@/pages/admin/Setting");
+
 export default [
   {
     path: "dashboard",
     name: "admin.dashboard",
-    component: () => import("@/pages/admin/Dashboard")
+    component: Dashboard
   },
   {
     path: "permission",
     name: "admin.permission",
-    component: () => import("@/pages/admin/Permission")
+    component: Permission
   },
   {
     path: "roles",
     name: "admin.roles",
-    component: () => import("@/pages/admin/Role")
+    component: Role
   },
   {
     path: "users",
     name: "admin.users",
-    component: () => import("@/pages/admin/User")
+    component: User
   },
   {
     path: "ratings",
     name: "admin.ratings",
-    component: () => import("@/pages/admin/Rating")
+    component: Rating
   },
   {
     path: "feedbacks",
     name: "admin.feedbacks",
-    component: () => import("@/pages/admin/Feedback")
+    component: Feedback
   },
   {
     path: "slides",
     name: "admin.slides",
-    component: () => import("@/pages/admin/Slide")
+    component: Slide
   },
   {
     path: "settings",
     name: "admin.settings",
-    component: () => import("@/pages/admin/Setting")
+    component: Setting
   }
 ];

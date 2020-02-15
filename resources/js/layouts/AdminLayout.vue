@@ -6,11 +6,13 @@
       <app-admin-header></app-admin-header>
 
       <a-layout-content class="layout-content">
-        <router-view></router-view>
+        <router-view :key="$route.fullPath"></router-view>
       </a-layout-content>
 
       <a-layout-footer style="text-align: center">
-        Made with <a-icon type="heart" theme="twoTone" twoToneColor="#eb2f96" /> by Huu Canh ©{{ new Date().getFullYear() }}
+        Made with
+        <a-icon type="heart" theme="twoTone" twoToneColor="#eb2f96" /> by Huu
+        Canh ©{{ new Date().getFullYear() }}
       </a-layout-footer>
     </a-layout>
   </a-layout>
@@ -33,7 +35,7 @@
   };
 </script>
 
-<style>
+<style lang="css">
   #layout-admin .trigger {
     font-size: 18px;
     line-height: 64px;

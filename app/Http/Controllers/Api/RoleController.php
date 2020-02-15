@@ -19,8 +19,12 @@ class RoleController extends BaseController
 
     public function index()
     {
+        $array = array(
+            'sortBy' => request()->sortBy ?? 'created_at',
+            'orderBy' => request()->orderBy ?? 'desc',
+        );
         return RoleResource::collection(
-            Role::oldest('id')->paginate(5)
+            querySort(Role::class, $array, 5)
         );
     }
 
