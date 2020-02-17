@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\User;
-use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Requests\Users\CreateUserRequest;
+use App\Http\Requests\Users\UpdateUserRequest;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends BaseController
@@ -16,15 +17,24 @@ class UserController extends BaseController
     {
         $this->user = $user;
     }
-    
+
     public function index()
     {
+        $array = array(
+            'sortBy' => request()->sortBy ?? 'created_at',
+            'orderBy' => request()->orderBy ?? 'desc',
+        );
+        $columnSearch = array(
+            'email',
+            'name'
+        );
+
         return UserResource::collection(
-            User::latest()->paginate(10)
+            querySearch(User::class, request()->keyword, $array, $columnSearch, 10)
         );
     }
 
-    public function store(UserRequest $request)
+    public function store(CreateUserRequest $request)
     {
         $user = $this->user->create($request->all());
 
@@ -38,7 +48,7 @@ class UserController extends BaseController
         );
     }
 
-    public function update(UserRequest $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
         $user = $this->user->findOrFail($id);
         $user->update($request->all());
@@ -49,7 +59,7 @@ class UserController extends BaseController
     public function destroy($id)
     {
         $this->user->findOrFail($id)->delete();
-        
+
         return $this->respondSuccess(config('message.delete_success'));
     }
 }

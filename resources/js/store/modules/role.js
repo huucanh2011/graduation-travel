@@ -1,6 +1,5 @@
-import CallerApi from "@/helpers/caller-api";
-import IsEmptyObject from "@/helpers/IsEmptyObject";
-import { vp } from "@/helpers/tools";
+import ApiService from "@/api/api.service";
+import { vp, isNotNull } from "@/helpers/tools";
 
 const state = {
   dataCache: {},
@@ -22,15 +21,22 @@ const getters = {
 
 const actions = {
   async FETCH_ROLES({ commit }, payload) {
-    let url = `roles?page=${payload.page}`;
+    let url = `page=${payload.page}`,
+      keyword = payload.params.keyword,
+      sortBy = payload.params.sortBy,
+      orderBy = payload.params.orderBy;
 
-    if (!IsEmptyObject(payload.params)) {
-      url += `&sortBy=${payload.params.sortBy}&orderBy=${payload.params.orderBy}`;
+    if (isNotNull(keyword)) {
+      url += `&keyword=${keyword}`;
+    }
+
+    if (isNotNull(sortBy) && isNotNull(orderBy)) {
+      url += `&sortBy=${sortBy}&orderBy=${orderBy}`;
     }
 
     return new Promise((reslove, reject) => {
       commit("SET_LOADING");
-      CallerApi.getAll(url)
+      ApiService.query(`roles?${url}`)
         .then(resp => {
           if (resp && resp.status === 200) {
             commit("FETCH_ROLES", resp.data.data);
@@ -45,10 +51,10 @@ const actions = {
 
   async CREATE_ROLE({ commit }, payload) {
     try {
-      const role = {
+      let role = {
         role_name: payload.role_name
       };
-      const resp = await CallerApi.create("roles", role);
+      const resp = await ApiService.post("roles", role);
       if (resp && resp.status === 201) {
         commit("CREATE_ROLE", resp.data);
         vp.$notify.success("Success", "Thêm thành công");
@@ -61,14 +67,9 @@ const actions = {
     }
   },
 
-  async UPDATE_ROLE({ commit, state }, payload) {
-    if (payload.values.role_name === state.dataCache.role_name) {
-      vp.$notify.info("Info", "Bạn không thay đổi gì");
-      return;
-    }
-
+  async UPDATE_ROLE({ commit }, payload) {
     try {
-      const resp = await CallerApi.update("roles", payload.values, payload.id);
+      const resp = await ApiService.update("roles", payload.values, payload.id);
       if (resp && resp.status === 202) {
         commit("UPDATE_ROLE", resp.data);
         vp.$notify.success("Success", "Cập nhật thành công");
@@ -83,7 +84,7 @@ const actions = {
 
   async GET_ROLE({ commit }, id) {
     try {
-      const resp = await CallerApi.getOne("roles", id);
+      const resp = await ApiService.get("roles", id);
       if (resp && resp.status === 200) {
         commit("SET_CACHE", resp.data);
       }
@@ -101,7 +102,7 @@ const actions = {
 
   async DELETE_ROLE({ commit }, id) {
     try {
-      const resp = await CallerApi.delete("roles", id);
+      const resp = await ApiService.delete("roles", id);
       if (resp && resp.status === 200) {
         commit("DELETE_ROLE", id);
         vp.$notify.success("Success", resp.data.message);
@@ -130,7 +131,6 @@ const mutations = {
     state.isLoading = false;
   },
   CREATE_ROLE(state, data) {
-    state.roles.pop();
     state.roles.unshift(data);
   },
   UPDATE_ROLE(state, data) {

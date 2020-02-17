@@ -1,13 +1,15 @@
 <template>
-  <div>User</div>
+  <user-index></user-index>
 </template>
 
 <script>
-export default {
+  import UserIndex from "@/components/admin/user/UserIndex";
 
-}
+  export default {
+    components: {
+      UserIndex
+    }
+  };
 </script>
 
-<style>
-
-</style>
+<style></style>

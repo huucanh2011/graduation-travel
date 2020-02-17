@@ -1,6 +1,5 @@
 import "./bootstrap";
 import Vue from "vue";
-import Vuex from "vuex";
 import router from "./router";
 import store from "./store";
 
@@ -12,14 +11,15 @@ import "./plugins/vue-progressbar";
 
 //helpers
 import "./helpers/notifications";
-import DateFilter from "./helpers/filter-date";
+import { dateFilter, statusFilter, upperCaseFilter } from "./helpers/filters";
 
-Vue.filter("date", DateFilter);
-Vue.use(Vuex);
+Vue.filter("date", dateFilter);
+Vue.filter("status", statusFilter);
+Vue.filter("upperCase", upperCaseFilter);
 
 //global components
-import AppDrawer from "./components/admin/AppDrawer";
-Vue.component("app-drawer", AppDrawer);
+// import AppDrawer from "./components/admin/AppDrawer";
+// Vue.component("app-drawer", AppDrawer);
 
 window.eventBus = new Vue();
 

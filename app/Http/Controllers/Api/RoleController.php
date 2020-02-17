@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Role;
-use App\Http\Requests\RoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Requests\Roles\CreateRoleRequest;
+use App\Http\Requests\Roles\UpdateRoleRequest;
 use Symfony\Component\HttpFoundation\Response;
 
 class RoleController extends BaseController
@@ -19,16 +20,23 @@ class RoleController extends BaseController
 
     public function index()
     {
+        // return cleanAccents();
+
         $array = array(
             'sortBy' => request()->sortBy ?? 'created_at',
             'orderBy' => request()->orderBy ?? 'desc',
         );
+        $columnSearch = array(
+            'role_name',
+            'id'
+        );
+
         return RoleResource::collection(
-            querySort(Role::class, $array, 5)
+            querySearch(Role::class, request()->keyword, $array, $columnSearch, 5)
         );
     }
 
-    public function store(RoleRequest $request)
+    public function store(CreateRoleRequest $request)
     {
         $role = $this->role->create($request->all());
 
@@ -42,7 +50,7 @@ class RoleController extends BaseController
         );
     }
 
-    public function update(RoleRequest $request, $id)
+    public function update(UpdateRoleRequest $request, $id)
     {
         $role = $this->role->findOrFail($id);
         $role->update($request->all());
