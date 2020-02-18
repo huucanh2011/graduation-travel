@@ -1,62 +1,66 @@
-import ApiService from "@/api/api.service";
-import { vp, isNotNull } from "@/helpers/tools";
+import { getRoles, createRole, updateRole, deleteRole } from "@/api/Role";
+import { vp } from "@/helpers/tools";
 
 const state = {
-  dataCache: {},
   roles: [],
-  isLoading: false
+  loading: false
 };
 
 const getters = {
-  dataCache: state => {
-    return state.dataCache;
-  },
-  roles: state => {
+  roles(state) {
     return state.roles;
   },
-  isLoading: state => {
-    return state.isLoading;
+  getRoleById(state) {
+    return roleId => {
+      return state.roles.find(role => {
+        return role.id === roleId;
+      });
+    };
+  },
+  loading(state) {
+    return state.loading;
   }
 };
 
 const actions = {
-  async FETCH_ROLES({ commit }, payload) {
-    let url = `page=${payload.page}`,
-      keyword = payload.params.keyword,
-      sortBy = payload.params.sortBy,
-      orderBy = payload.params.orderBy;
+  async fetchRoles({ commit }, payload) {
+    let url = "roles";
 
-    if (isNotNull(keyword)) {
-      url += `&keyword=${keyword}`;
+    if (payload.page) {
+      url += `?page=${payload.page}`;
     }
 
-    if (isNotNull(sortBy) && isNotNull(orderBy)) {
-      url += `&sortBy=${sortBy}&orderBy=${orderBy}`;
+    if (payload.keyword) {
+      url += `&keyword=${payload.keyword}`;
+    }
+
+    if (payload.sortBy && payload.orderBy) {
+      url += `&sortBy=${payload.sortBy}&orderBy=${payload.orderBy}`;
     }
 
     return new Promise((reslove, reject) => {
-      commit("SET_LOADING");
-      ApiService.query(`roles?${url}`)
+      commit("setLoading", true);
+      getRoles(url)
         .then(resp => {
-          if (resp && resp.status === 200) {
-            commit("FETCH_ROLES", resp.data.data);
+          if (resp.data && resp.status === 200) {
+            commit("fetchRoles", resp.data.data);
             reslove(resp);
           }
         })
         .catch(err => {
           reject(err);
+        })
+        .finally(() => {
+          commit("setLoading", false);
         });
     });
   },
 
-  async CREATE_ROLE({ commit }, payload) {
+  async createRole({ commit }, payload) {
     try {
-      let role = {
-        role_name: payload.role_name
-      };
-      const resp = await ApiService.post("roles", role);
-      if (resp && resp.status === 201) {
-        commit("CREATE_ROLE", resp.data);
+      const { data, status } = await createRole(payload);
+      if (data && status === 201) {
+        commit("createRole", data);
         vp.$notify.success("Success", "Thêm thành công");
       }
     } catch ({ response }) {
@@ -67,11 +71,11 @@ const actions = {
     }
   },
 
-  async UPDATE_ROLE({ commit }, payload) {
+  async updateRole({ commit }, payload) {
     try {
-      const resp = await ApiService.update("roles", payload.values, payload.id);
-      if (resp && resp.status === 202) {
-        commit("UPDATE_ROLE", resp.data);
+      const { data, status } = await updateRole(payload.id, payload.values);
+      if (data && status === 202) {
+        commit("updateRole", data);
         vp.$notify.success("Success", "Cập nhật thành công");
       }
     } catch ({ response }) {
@@ -82,30 +86,12 @@ const actions = {
     }
   },
 
-  async GET_ROLE({ commit }, id) {
+  async deleteRole({ commit }, id) {
     try {
-      const resp = await ApiService.get("roles", id);
-      if (resp && resp.status === 200) {
-        commit("SET_CACHE", resp.data);
-      }
-    } catch ({ response }) {
-      if (response && response.status === 404) {
-        const message = Object.values(response.data.message)[0];
-        vp.$notify.error("Error", message);
-      }
-    }
-  },
-
-  CLEAN_CACHE({ commit }) {
-    commit("CLEAN_CACHE");
-  },
-
-  async DELETE_ROLE({ commit }, id) {
-    try {
-      const resp = await ApiService.delete("roles", id);
-      if (resp && resp.status === 200) {
-        commit("DELETE_ROLE", id);
-        vp.$notify.success("Success", resp.data.message);
+      const { data, status } = await deleteRole(id);
+      if (data && status === 200) {
+        commit("deleteRole", id);
+        vp.$notify.success("Success", data.message);
       }
     } catch ({ response }) {
       if (response) {
@@ -117,28 +103,22 @@ const actions = {
 };
 
 const mutations = {
-  SET_LOADING(state) {
-    state.isLoading = true;
+  setLoading(state, data) {
+    state.loading = data;
   },
-  SET_CACHE(state, data) {
-    state.dataCache = data;
-  },
-  CLEAN_CACHE(state) {
-    state.dataCache = {};
-  },
-  FETCH_ROLES(state, data) {
+  fetchRoles(state, data) {
     state.roles = data;
-    state.isLoading = false;
   },
-  CREATE_ROLE(state, data) {
-    state.roles.unshift(data);
+  createRole(state, data) {
+    state.roles.unshitf(data);
+    state.roles.pop();
   },
-  UPDATE_ROLE(state, data) {
+  updateRole(state, data) {
     const index = state.roles.findIndex(item => item.id === data.id);
     state.roles.splice(index, 1, data);
   },
-  DELETE_ROLE(state, id) {
-    const index = state.roles.findIndex(item => item.id === id);
+  deleteRole(state, id) {
+    const index = state.roles.findIndex(item => item.id === data.id);
     state.roles.splice(index, 1);
   }
 };

@@ -1,45 +1,33 @@
 <template>
-  <div>
-    <h3>Danh sách tài khoản</h3>
-
-    <div class="nav-table-data">
-      <div>
-        <a-button type="primary" icon="plus" @click="onOpen">Thêm</a-button>
-        <a-button
-          icon="sync"
-          :style="{ marginLeft: '5px' }"
-          @click="clearAll"
-        ></a-button>
-        <!-- <a-button icon="file-excel" :style="{ marginLeft: '5px' }">Export</a-button> -->
-      </div>
+  <a-card title="Danh sách tài khoản" :bordered="false">
+    <div slot="extra">
+      <a-button type="primary" icon="plus" @click="onOpen">Thêm</a-button>
+      <a-button
+        icon="sync"
+        :style="{ marginLeft: '8px' }"
+        @click="onReset"
+      ></a-button>
       <a-input-search
         placeholder="Tìm kiếm..."
-        :style="{ maxWidth: '200px' }"
         v-model="keyword"
         @search="onSearch"
+        style="margin-left: 8px; width: 250px;"
       />
     </div>
 
     <a-table
       :columns="columns"
-      :loading="isLoading"
+      :loading="loading"
       :rowKey="record => record.id"
       :dataSource="users"
       :pagination="pagination"
-      @change="handleTableChange"
+      @change="onChange"
     >
       <template slot="no" slot-scope="text, record, index">
         <strong>{{ ++index }}</strong>
       </template>
-      <!-- <template slot="createdAt" slot-scope="record">
-        <span>{{ record | date }}</span>
-      </template>
-
-      <template slot="updatedAt" slot-scope="record">
-        <span>{{ record | date }}</span>
-      </template> -->
       <template slot="status" slot-scope="record">
-        <a-tag :color="record ? 'blue': 'red'">{{ record | status }}</a-tag>
+        <a-tag :color="record ? 'blue' : 'red'">{{ record | status }}</a-tag>
       </template>
       <template slot="active" slot-scope="record">
         <a-switch :defaultChecked="record" size="small">
@@ -55,7 +43,7 @@
         <a-popconfirm
           v-if="users.length"
           title="Bạn có chắc chắn?"
-          @confirm="() => onDelete(record.id)"
+          @confirm="onDelete(record.id)"
         >
           <a-button type="dashed" size="small">
             <a-icon type="delete"></a-icon>
@@ -63,25 +51,21 @@
         </a-popconfirm>
       </template>
     </a-table>
-  </div>
+  </a-card>
 </template>
 
 <script>
-  import IsEmptyObject from "@/helpers/IsEmptyObject";
-  import { vp, isNotNull, cleanAccents } from "@/helpers/tools";
+  import { isNotNull, cleanAccents } from "@/helpers/tools";
   import { mapActions, mapGetters } from "vuex";
   export default {
     data() {
       return {
         pagination: {},
-        keyword: ""
+        keyword: null
       };
     },
-    created() {
-      this.fetch();
-    },
     computed: {
-      ...mapGetters("user", ["users", "dataCache", "isLoading"]),
+      ...mapGetters("user", ["loading", "users", "getUserById"]),
       columns() {
         const columns = [
           {
@@ -112,7 +96,7 @@
           },
           {
             title: "Quyền",
-            dataIndex: "role",
+            dataIndex: "role"
           },
           {
             title: "Tùy chọn",
@@ -124,40 +108,36 @@
         return columns;
       }
     },
-    watch: {
-      keyword(val) {
-        return val;
-      }
+    created() {
+      this.fetch();
+      eventBus.$on("retrieveUsers", this.retrieveUsers);
+    },
+    beforeDestroy() {
+      eventBus.$off("retrieveUsers", this.retrieveUsers);
     },
     methods: {
-      ...mapActions("user", [
-        "FETCH_USERS",
-        "GET_USER",
-        "UPDATE_USER",
-        "DELETE_USER"
-      ]),
-      onOpen() {
-        this.$emit("openDrawerUser", true);
+      ...mapActions("user", ["fetchUsers", "deleteUser"]),
+      retrieveUsers() {
+        this.fetch();
       },
-      async onUpdate(userId) {
-        vp.$message.loading("Waiting...", 0.5);
-        await this.GET_USER(userId);
-        this.$emit("setFormUser", this.dataCache, userId, true, true);
+      onOpen() {
+        eventBus.$emit("openDrawerUser", true);
+      },
+      onUpdate(userId) {
+        const userUpdate = this.getUserById(userId);
+        eventBus.$emit("setFormUser", userUpdate, userId, true, true);
       },
       onDelete(userId) {
-        this.DELETE_USER(userId);
-        this.fetch(1);
+        this.deleteUser(userId);
+        this.fetch();
       },
       onSearch(value, event) {
-        console.log(value);
-        
         if (isNotNull(value)) {
           let params = {
-            sortBy: "",
-            orderBy: "",
+            page: this.pagination.current,
             keyword: value
           };
-          this.fetch(1, params);
+          this.fetch(params);
           this.keyword = value;
         }
       },
@@ -165,51 +145,38 @@
         console.log(checked);
         console.log(id);
       },
-      clearAll() {
-        this.fetch(1);
-        this.keyword = "";
+      onReset() {
+        this.retrieveUsers();
+        this.keyword = null;
       },
-      async fetch(page = 1, params = {}) {
-        const payload = {
-          page: page,
-          params: params
-        };
-        const { data, config } = await this.FETCH_USERS(payload);
-        window.history.replaceState("users", "", config.url);
+      async fetch(params = {}) {
         const pagination = { ...this.pagination };
+        const { data, config } = await this.fetchUsers(params);
+        window.history.replaceState("users", "", config.url);
         pagination.total = data.meta.total;
         pagination.pageSize = data.meta.per_page;
-        pagination.current = page;
+        pagination.current = data.meta.current_page;
         this.pagination = pagination;
       },
-      handleTableChange(pagination, filters, sorter) {
-        let params;
+      onChange(pagination, filters, sorter) {
         const pager = { ...this.pagination };
         pager.current = pagination.current;
         this.pagination = pager;
-        if (!IsEmptyObject(sorter)) {
-          params = {
-            sortBy: sorter.field,
-            orderBy: sorter.order === "ascend" ? "asc" : "desc",
-            keyword: this.keyword
-          };
-        } else {
-          params = {
-            keyword: this.keyword
-          };
-        }
-        this.fetch(pager.current, params);
+        let params = {
+          page: pagination.current,
+          sortBy: sorter.field,
+          orderBy:
+            sorter.order === "ascend"
+              ? "asc"
+              : sorter.order === "descend"
+              ? "desc"
+              : undefined,
+          keyword: this.keyword
+        };
+        this.fetch(params);
       }
     }
   };
 </script>
 
-<style>
-  .nav-table-data {
-    margin: 10px 0 15px 0;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-</style>
+<style></style>

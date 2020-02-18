@@ -6,6 +6,8 @@ const Rating = () => import("@/pages/admin/Rating");
 const Feedback = () => import("@/pages/admin/Feedback");
 const Slide = () => import("@/pages/admin/Slide");
 const Setting = () => import("@/pages/admin/Setting");
+const Category = () => import("@/pages/admin/Category");
+const Tour = () => import("@/pages/admin/Tour");
 
 export default [
   {
@@ -47,5 +49,15 @@ export default [
     path: "settings",
     name: "admin.settings",
     component: Setting
+  },
+  // {
+  //   path: "categories",
+  //   name: "admin.categories",
+  //   component: Category
+  // },
+  {
+    path: "tours",
+    name: "admin.tours",
+    component: Tour
   }
 ];

@@ -1,14 +1,16 @@
 <template>
-  <role-index></role-index>
+  <div>
+    <role-table></role-table>
+    <role-form></role-form>
+  </div>
 </template>
 
 <script>
-  import RoleIndex from "@/components/admin/role/RoleIndex";
+  import RoleForm from "@/components/admin/role/RoleForm";
+  import RoleTable from "@/components/admin/role/RoleTable";
 
   export default {
-    components: {
-      RoleIndex
-    }
+    components: { RoleForm, RoleTable }
   };
 </script>
 

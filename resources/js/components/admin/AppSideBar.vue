@@ -54,13 +54,13 @@
         </router-link>
       </a-menu-item>
       <a-menu-item key="8">
-        <router-link to="/">
+        <router-link :to="{ name: 'admin.categories' }">
           <a-icon type="switcher" />
           <span>Loại tour</span>
         </router-link>
       </a-menu-item>
       <a-menu-item key="9">
-        <router-link to="/">
+        <router-link :to="{ name: 'admin.tours' }">
           <a-icon type="switcher" />
           <span>Tour</span>
         </router-link>

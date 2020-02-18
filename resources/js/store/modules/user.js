@@ -1,77 +1,75 @@
-import ApiService from "@/api/api.service";
-import { vp, isNotNull } from "@/helpers/tools";
+import { getUsers, createUser, updateUser, deleteUser } from "@/api/User";
+import { getRoles } from "@/api/Role";
+import { vp } from "@/helpers/tools";
 
 const state = {
-  dataCache: {},
   roles: [],
   users: [],
-  isLoading: false
+  loading: false
 };
 
 const getters = {
-  dataCache: state => {
-    return state.dataCache;
-  },
   roles: state => {
     return state.roles;
   },
   users: state => {
     return state.users;
   },
-  isLoading: state => {
-    return state.isLoading;
+  getUserById(state) {
+    return userId => {
+      return state.users.find(user => {
+        return user.id === userId;
+      });
+    };
+  },
+  loading(state) {
+    return state.loading;
   }
 };
 
 const actions = {
-  async FETCH_ROLES({ commit }) {
-    const { data } = await ApiService.get("roles");
-    commit("FETCH_ROLE", data.data);
-    // console.log(data);
+  async fetchRoles({ commit }) {
+    const { data } = await getRoles("roles");
+    commit("fetchRoles", data.data);
   },
-  async FETCH_USERS({ commit }, payload) {
-    let url = `page=${payload.page}`,
-      keyword = payload.params.keyword,
-      sortBy = payload.params.sortBy,
-      orderBy = payload.params.orderBy;
+  async fetchUsers({ commit }, payload) {
+    let url = "users";
 
-    if (isNotNull(keyword)) {
-      url += `&keyword=${keyword}`;
+    if (payload.page) {
+      url += `?page=${payload.page}`;
     }
 
-    if (isNotNull(sortBy) && isNotNull(orderBy)) {
-      url += `&sortBy=${sortBy}&orderBy=${orderBy}`;
+    if (payload.keyword) {
+      url += `&keyword=${payload.keyword}`;
+    }
+
+    if (payload.sortBy && payload.orderBy) {
+      url += `&sortBy=${payload.sortBy}&orderBy=${payload.orderBy}`;
     }
 
     return new Promise((reslove, reject) => {
-      commit("SET_LOADING");
-      ApiService.query(`users?${url}`)
+      commit("setLoading", true);
+      getUsers(url)
         .then(resp => {
           if (resp && resp.status === 200) {
-            commit("FETCH_USER", resp.data.data);
+            commit("fetchUsers", resp.data.data);
             reslove(resp);
           }
         })
         .catch(err => {
           reject(err);
+        })
+        .finally(() => {
+          commit("setLoading", false);
         });
     });
   },
 
-  async CREATE_USER({ commit }, payload) {
+  async createUser({ commit }, payload) {
     try {
-      let user = {
-        name: payload.name,
-        email: payload.email,
-        password: payload.password,
-        phone_number: payload.phone_number,
-        address: payload.address,
-        is_active: payload.is_active,
-        role_id: payload.role_id
-      };
-      const resp = await ApiService.post("users", user);
-      if (resp && resp.status === 201) {
-        commit("CREATE_USER", resp.data);
+      const { data, status } = await createUser(payload);
+      if (data && status === 201) {
+        commit("createUser", data);
         vp.$notify.success("Success", "Thêm thành công");
       }
     } catch ({ response }) {
@@ -82,11 +80,11 @@ const actions = {
     }
   },
 
-  async UPDATE_USER({ commit }, payload) {
+  async updateUser({ commit }, payload) {
     try {
-      const resp = await ApiService.update("users", payload.values, payload.id);
-      if (resp && resp.status === 202) {
-        commit("UPDATE_USER", resp.data);
+      const { data, status } = await updateUser(payload.id, payload.values);
+      if (data && status === 202) {
+        commit("updateUser", data);
         vp.$notify.success("Success", "Cập nhật thành công");
       }
     } catch ({ response }) {
@@ -97,30 +95,12 @@ const actions = {
     }
   },
 
-  async GET_USER({ commit }, id) {
+  async deleteUser({ commit }, id) {
     try {
-      const resp = await ApiService.get("users", id);
-      if (resp && resp.status === 200) {
-        commit("SET_CACHE", resp.data);
-      }
-    } catch ({ response }) {
-      if (response && response.status === 404) {
-        const message = Object.values(response.data.message)[0];
-        vp.$notify.error("Error", message);
-      }
-    }
-  },
-
-  CLEAN_CACHE({ commit }) {
-    commit("CLEAN_CACHE");
-  },
-
-  async DELETE_USER({ commit }, id) {
-    try {
-      const resp = await ApiService.delete("users", id);
-      if (resp && resp.status === 200) {
-        commit("DELETE_USER", id);
-        vp.$notify.success("Success", resp.data.message);
+      const { data, status } = await deleteUser(id);
+      if (data && status === 200) {
+        commit("deleteUser", id);
+        vp.$notify.success("Success", data.message);
       }
     } catch ({ response }) {
       if (response) {
@@ -132,30 +112,24 @@ const actions = {
 };
 
 const mutations = {
-  SET_LOADING(state) {
-    state.isLoading = true;
+  setLoading(state, data) {
+    state.loading = data;
   },
-  SET_CACHE(state, data) {
-    state.dataCache = data;
-  },
-  CLEAN_CACHE(state) {
-    state.dataCache = {};
-  },
-  FETCH_ROLE(state, data) {
+  fetchRoles(state, data) {
     state.roles = data;
   },
-  FETCH_USER(state, data) {
+  fetchUsers(state, data) {
     state.users = data;
-    state.isLoading = false;
   },
-  CREATE_USER(state, data) {
+  createUser(state, data) {
     state.users.unshift(data);
+    state.users.pop();
   },
-  UPDATE_USER(state, data) {
+  updateUser(state, data) {
     const index = state.users.findIndex(item => item.id === data.id);
     state.users.splice(index, 1, data);
   },
-  DELETE_USER(state, id) {
+  deleteUser(state, id) {
     const index = state.users.findIndex(item => item.id === id);
     state.users.splice(index, 1);
   }

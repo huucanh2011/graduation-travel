@@ -21,8 +21,8 @@ class TourCategoryResource extends JsonResource
             'slug' => $this->slug,
             'tours' => TourResource::collection($this->whenLoaded('tours')),
             'tours_count' => $this->tours()->count(),
-            'created_at' => (string) $this->created_at,
-            'updated_at' => (string) $this->updated_at,
+            'created_at' => (string) $this->created_at->diffForHumans(),
+            'updated_at' => (string) $this->updated_at->diffForHumans(),
         ];
     }
 }

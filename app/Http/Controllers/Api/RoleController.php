@@ -32,7 +32,7 @@ class RoleController extends BaseController
         );
 
         return RoleResource::collection(
-            querySearch(Role::class, request()->keyword, $array, $columnSearch, 5)
+            querySearch(Role::class, request()->keyword, $array, $columnSearch, 10)
         );
     }
 

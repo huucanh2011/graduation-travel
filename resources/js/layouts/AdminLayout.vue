@@ -1,14 +1,11 @@
 <template>
   <a-layout id="layout-admin" :style="{ minHeight: '100vh' }">
     <app-admin-sidebar></app-admin-sidebar>
-
     <a-layout>
       <app-admin-header></app-admin-header>
-
       <a-layout-content class="layout-content">
         <router-view :key="$route.fullPath"></router-view>
       </a-layout-content>
-
       <a-layout-footer style="text-align: center">
         Made with
         <a-icon type="heart" theme="twoTone" twoToneColor="#eb2f96" /> by Huu
@@ -28,10 +25,7 @@
         collapsed: false
       };
     },
-    components: {
-      AppAdminHeader,
-      AppAdminSidebar
-    }
+    components: { AppAdminHeader, AppAdminSidebar }
   };
 </script>
 
@@ -55,7 +49,6 @@
 
   #layout-admin .layout-content {
     margin: 24px;
-    padding: 24px;
     background: #fff;
     min-height: 280px;
   }

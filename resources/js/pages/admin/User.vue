@@ -1,14 +1,16 @@
 <template>
-  <user-index></user-index>
+  <div>
+    <user-table></user-table>
+    <user-form></user-form>
+  </div>
 </template>
 
 <script>
-  import UserIndex from "@/components/admin/user/UserIndex";
+  import UserTable from "@/components/admin/user/UserTable";
+  import UserForm from "@/components/admin/user/UserForm";
 
   export default {
-    components: {
-      UserIndex
-    }
+    components: { UserTable, UserForm }
   };
 </script>
 
