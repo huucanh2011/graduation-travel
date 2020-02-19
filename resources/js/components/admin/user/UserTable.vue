@@ -27,7 +27,7 @@
         <strong>{{ ++index }}</strong>
       </template>
       <template slot="status" slot-scope="record">
-        <a-tag :color="record ? 'blue' : 'red'">{{ record | status }}</a-tag>
+        <a-tag :color="colorActive(record)">{{ record | status }}</a-tag>
       </template>
       <template slot="active" slot-scope="record">
         <a-switch :defaultChecked="record" size="small">
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-  import { isNotNull, cleanAccents } from "@/helpers/tools";
+  import { isNotNull, colorActive, cleanAccents } from "@/helpers/tools";
   import { mapActions, mapGetters } from "vuex";
   export default {
     data() {
@@ -174,6 +174,9 @@
           keyword: this.keyword
         };
         this.fetch(params);
+      },
+      colorActive(v) {
+        return colorActive(v);
       }
     }
   };

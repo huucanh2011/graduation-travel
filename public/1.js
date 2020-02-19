@@ -194,6 +194,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -214,7 +219,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         title: "Tên quyền",
         dataIndex: "role_name",
-        sorter: true
+        sorter: true,
+        scopedSlots: {
+          customRender: "role_name"
+        }
       }, {
         title: "Created at",
         dataIndex: "created_at",
@@ -320,6 +328,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         keyword: this.keyword
       };
       this.fetch(params);
+    },
+    tagColor: function tagColor(v) {
+      return Object(_helpers_tools__WEBPACK_IMPORTED_MODULE_1__["tagColor"])(v);
     }
   })
 });
@@ -578,6 +589,22 @@ var render = function() {
             key: "no",
             fn: function(text, record, index) {
               return [_c("strong", [_vm._v(_vm._s(++index))])]
+            }
+          },
+          {
+            key: "role_name",
+            fn: function(record) {
+              return [
+                _c(
+                  "span",
+                  [
+                    _c("a-tag", { attrs: { color: _vm.tagColor(record) } }, [
+                      _vm._v(_vm._s(record))
+                    ])
+                  ],
+                  1
+                )
+              ]
             }
           },
           {

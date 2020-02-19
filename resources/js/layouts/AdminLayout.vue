@@ -43,7 +43,7 @@
 
   #layout-admin .logo {
     height: 32px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgb(241, 241, 241);
     margin: 16px;
   }
 
@@ -60,5 +60,11 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+  }
+  .ant-menu-root.ant-menu-inline,
+  .ant-menu-root.ant-menu-vertical,
+  .ant-menu-root.ant-menu-vertical-left,
+  .ant-menu-root.ant-menu-vertical-right {
+    border: none;
   }
 </style>

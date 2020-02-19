@@ -1,5 +1,5 @@
 import { getUsers, createUser, updateUser, deleteUser } from "@/api/User";
-import { getRoles } from "@/api/Role";
+import { getRoles } from "@/api/Permission";
 import { vp } from "@/helpers/tools";
 
 const state = {
@@ -29,8 +29,10 @@ const getters = {
 
 const actions = {
   async fetchRoles({ commit }) {
-    const { data } = await getRoles("roles");
-    commit("fetchRoles", data.data);
+    const { data, status } = await getRoles();
+    if (data && status === 200) {
+      commit("fetchRoles", data.data);
+    }
   },
   async fetchUsers({ commit }, payload) {
     let url = "users";

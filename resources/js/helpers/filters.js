@@ -10,11 +10,22 @@ const dateFilter = value => {
 };
 
 const statusFilter = value => {
-  return value === true ? "ACTIVATE" : "INACTIVATE";
+  return value ? "ACTIVATE" : "INACTIVATE";
 };
 
 const upperCaseFilter = value => {
-  return value.toUpperCase()
-}
+  return value.toUpperCase();
+};
 
-export { dateFilter, statusFilter, upperCaseFilter };
+const tagColorFilter = value => {
+  const color = "cyan";
+  if (value === "admin") {
+    color = "orange";
+  }
+  if (value === "partner") {
+    color = "green";
+  }
+  return color;
+};
+
+export { dateFilter, statusFilter, upperCaseFilter, tagColorFilter };

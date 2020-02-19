@@ -17,7 +17,7 @@ Route::group(['prefix' => 'v1'], function () {
             //     Route::get('{provider}/callback', 'AuthController@handleProviderCallback');
             // });    
         });
-        
+
         Route::apiResources([
             'payments' => 'PaymentController',
             'roles' => 'RoleController',
@@ -26,11 +26,17 @@ Route::group(['prefix' => 'v1'], function () {
             'tours' => 'TourController',
             'ratings' => 'TourRatingController',
             'users' => 'UserController',
+            'feedbacks' => 'FeedbackController',
         ]);
-
-        Route::apiResource('feedbacks', 'FeedbackController')->except(['update']);
 
         Route::apiResource('tours.dates', 'TourDepartureController')->except(['update', 'show']);
         Route::apiResource('tours.images', 'TourImageController')->except(['update', 'show']);
+
+        Route::get('permissions', 'PermissionController@index');
+        Route::put('permissions/{id}', 'PermissionController@update');
+
+        Route::get('get-roles', 'RoleController@getRoles');
+
+        Route::put('update-active-slide/{id}', 'SlideController@updateActive');
     });
 });

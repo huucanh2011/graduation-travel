@@ -65,6 +65,13 @@ class RoleController extends BaseController
         return $this->respondSuccess(config('message.delete_success'));
     }
 
+    public function getRoles()
+    {
+        return RoleResource::collection(
+            Role::oldest('id')->get()
+        );
+    }
+
     // public function search(Request $request)
     // {
 

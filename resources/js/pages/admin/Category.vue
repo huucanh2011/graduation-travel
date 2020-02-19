@@ -1,14 +1,16 @@
 <template>
-  <category-index></category-index>
+  <div>
+    <category-table></category-table>
+    <category-form></category-form>
+  </div>
 </template>
 
 <script>
-  import CategoryIndex from "@/components/admin/category/CategoryIndex";
-  
+  import CategoryForm from "@/components/admin/category/CategoryForm";
+  import CategoryTable from "@/components/admin/category/CategoryTable";
+
   export default {
-    components: {
-      CategoryIndex
-    }
+    components: { CategoryForm, CategoryTable }
   };
 </script>
 

@@ -451,6 +451,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         keyword: this.keyword
       };
       this.fetch(params);
+    },
+    colorActive: function colorActive(v) {
+      return Object(_helpers_tools__WEBPACK_IMPORTED_MODULE_1__["colorActive"])(v);
     }
   })
 });
@@ -467,7 +470,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_admin_user_UserTable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/admin/user/UserTable */ "./resources/js/components/admin/user/UserTable.vue");
-/* harmony import */ var _components_admin_user_UserForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/admin/user/UserForm */ "./resources/js/components/admin/user/UserForm.vue");
+/* harmony import */ var _components_admin_user_UserForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/admin/user/UserForm */ "./resources/js/components/admin/user/UserForm.vue");
 //
 //
 //
@@ -480,7 +483,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     UserTable: _components_admin_user_UserTable__WEBPACK_IMPORTED_MODULE_0__["default"],
-    UserForm: _components_admin_user_UserForm__WEBPACK_IMPORTED_MODULE_2__["default"]
+    UserForm: _components_admin_user_UserForm__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -945,7 +948,7 @@ var render = function() {
             key: "status",
             fn: function(record) {
               return [
-                _c("a-tag", { attrs: { color: record ? "blue" : "red" } }, [
+                _c("a-tag", { attrs: { color: _vm.colorActive(record) } }, [
                   _vm._v(_vm._s(_vm._f("status")(record)))
                 ])
               ]

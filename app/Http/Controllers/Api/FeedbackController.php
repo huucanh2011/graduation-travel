@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Feedback;
+use Illuminate\Http\Request;
 use App\Http\Requests\FeedbackRequest;
 use App\Http\Resources\FeedbackResource;
 use App\Http\Controllers\Api\BaseController;
@@ -19,8 +20,22 @@ class FeedbackController extends BaseController
 
     public function index()
     {
+        // return cleanAccents();
+
+        $array = array(
+            'sortBy' => request()->sortBy ?? 'created_at',
+            'orderBy' => request()->orderBy ?? 'desc',
+        );
+        $columnSearch = array(
+            'name',
+            'email',
+            'phone_number',
+            'subject',
+            'content',
+        );
+
         return FeedbackResource::collection(
-            Feedback::latest()->paginate(10)
+            querySearch(Feedback::class, request()->keyword, $array, $columnSearch, 10)
         );
     }
 
@@ -36,6 +51,14 @@ class FeedbackController extends BaseController
         return $this->respondData(
             new FeedbackResource($this->feedback->findOrFail($id))
         );
+    }
+
+    public function update(Request $request, $id)
+    {
+        $feedback = $this->feedback->findOrFail($id);
+        $feedback->update($request->only('seen'));
+
+        return $this->respondData(new FeedbackResource($feedback), Response::HTTP_ACCEPTED);
     }
 
     public function destroy($id)

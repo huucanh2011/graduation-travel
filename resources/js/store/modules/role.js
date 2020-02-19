@@ -118,7 +118,7 @@ const mutations = {
     state.roles.splice(index, 1, data);
   },
   deleteRole(state, id) {
-    const index = state.roles.findIndex(item => item.id === data.id);
+    const index = state.roles.findIndex(item => item.id === id);
     state.roles.splice(index, 1);
   }
 };

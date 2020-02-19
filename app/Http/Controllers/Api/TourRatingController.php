@@ -6,6 +6,7 @@ use App\TourRating;
 use Illuminate\Http\Request;
 use App\Http\Resources\TourRatingResource;
 use App\Http\Controllers\Api\BaseController;
+use Symfony\Component\HttpFoundation\Response;
 
 class TourRatingController extends BaseController
 {
@@ -18,8 +19,16 @@ class TourRatingController extends BaseController
 
     public function index()
     {
+        $array = array(
+            'sortBy' => request()->sortBy ?? 'created_at',
+            'orderBy' => request()->orderBy ?? 'desc',
+        );
+        $columnSearch = array(
+            'rating_content'
+        );
+
         return TourRatingResource::collection(
-            TourRating::latest()->paginate(10)
+            querySearch(TourRating::class, request()->keyword, $array, $columnSearch, 10)
         );
     }
 
@@ -35,7 +44,10 @@ class TourRatingController extends BaseController
 
     public function update(Request $request, $id)
     {
-        //
+        $tourRating = $this->tourRating->findOrFail($id);
+        $tourRating->update($request->only('is_active'));
+
+        return $this->respondData(new TourRatingResource($tourRating), Response::HTTP_ACCEPTED);
     }
 
     public function destroy($id)

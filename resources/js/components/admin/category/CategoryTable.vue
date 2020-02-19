@@ -1,32 +1,27 @@
 <template>
-  <div>
-    <h3>Danh sách loại tour</h3>
-
-    <div class="nav-table-data">
-      <div>
-        <a-button type="primary" icon="plus" @click="onOpen">Thêm</a-button>
-        <a-button
-          icon="sync"
-          :style="{ marginLeft: '5px' }"
-          @click="clearAll"
-        ></a-button>
-        <!-- <a-button icon="file-excel" :style="{ marginLeft: '5px' }">Export</a-button> -->
-      </div>
+  <a-card title="Danh sách thể loại tour" :bordered="false">
+    <div slot="extra">
+      <a-button type="primary" icon="plus" @click="onOpen">Thêm</a-button>
+      <a-button
+        icon="sync"
+        :style="{ marginLeft: '8px' }"
+        @click="onReset"
+      ></a-button>
       <a-input-search
         placeholder="Tìm kiếm..."
-        :style="{ maxWidth: '200px' }"
         v-model="keyword"
         @search="onSearch"
+        style="margin-left: 8px; width: 250px;"
       />
     </div>
 
     <a-table
       :columns="columns"
-      :loading="isLoading"
+      :loading="loading"
       :rowKey="record => record.id"
       :dataSource="categories"
       :pagination="pagination"
-      @change="handleTableChange"
+      @change="onChange"
     >
       <template slot="no" slot-scope="text, record, index">
         <strong>{{ ++index }}</strong>
@@ -39,7 +34,7 @@
         <a-popconfirm
           v-if="categories.length"
           title="Bạn có chắc chắn?"
-          @confirm="() => onDelete(record.id)"
+          @confirm="onDelete(record.id)"
         >
           <a-button type="dashed" size="small">
             <a-icon type="delete"></a-icon>
@@ -47,25 +42,21 @@
         </a-popconfirm>
       </template>
     </a-table>
-  </div>
+  </a-card>
 </template>
 
 <script>
-  import IsEmptyObject from "@/helpers/IsEmptyObject";
-  import { vp, isNotNull, cleanAccents } from "@/helpers/tools";
+  import { isNotNull, cleanAccents } from "@/helpers/tools";
   import { mapActions, mapGetters } from "vuex";
   export default {
     data() {
       return {
         pagination: {},
-        keyword: ""
+        keyword: null
       };
     },
-    created() {
-      this.fetch();
-    },
     computed: {
-      ...mapGetters("category", ["categories", "dataCache", "isLoading"]),
+      ...mapGetters("category", ["categories", "loading", "getCategoryById"]),
       columns() {
         const columns = [
           {
@@ -86,23 +77,22 @@
           {
             title: "Tổng tour",
             dataIndex: "tours_count",
+            align: "center"
           },
           {
             title: "Created at",
             dataIndex: "created_at",
-            sorter: true,
-            width: "15%"
+            sorter: true
           },
           {
             title: "Updated at",
             dataIndex: "updated_at",
-            sorter: true,
-            width: "15%"
+            sorter: true
           },
           {
             title: "Tùy chọn",
             key: "action",
-            width: "25%",
+            width: "20%",
             align: "center",
             scopedSlots: { customRender: "action" }
           }
@@ -110,87 +100,77 @@
         return columns;
       }
     },
-    watch: {
-      keyword(val) {
-        return val;
-      }
+    created() {
+      this.fetch();
+      eventBus.$on("retrieveCategories", this.retrieveCategories);
+    },
+    beforeDestroy() {
+      eventBus.$off("retrieveCategories", this.retrieveCategories);
     },
     methods: {
-      ...mapActions("category", [
-        "FETCH_CATEGORIES",
-        "GET_CATEGORY",
-        "DELETE_CATEGORY"
-      ]),
-      onOpen() {
-        this.$emit("openDrawerCategory", true);
+      ...mapActions("category", ["fetchCategories", "deleteCategory"]),
+      retrieveCategories() {
+        this.fetch();
       },
-      async onUpdate(categoryId) {
-        vp.$message.loading("Waiting...", 0.5);
-        await this.GET_CATEGORY(categoryId);
-        this.$emit("setFormCategory", this.dataCache, categoryId, true, true);
+      onOpen() {
+        eventBus.$emit("openDrawerCategory", true);
+      },
+      onUpdate(categoryId) {
+        const categoryUpdate = this.getCategoryById(categoryId);
+        eventBus.$emit(
+          "setFormCategory",
+          categoryUpdate,
+          categoryId,
+          true,
+          true
+        );
       },
       onDelete(categoryId) {
-        this.DELETE_CATEGORY(categoryId);
-        this.fetch(1);
+        this.deleteCategory(categoryId);
+        this.fetch();
       },
       onSearch(value, event) {
-        console.log(value);
-
         if (isNotNull(value)) {
           let params = {
-            sortBy: "",
-            orderBy: "",
+            page: this.pagination.current,
             keyword: value
           };
-          this.fetch(1, params);
+          this.fetch(params);
           this.keyword = value;
         }
       },
-      clearAll() {
-        this.fetch(1);
-        this.keyword = "";
+      onReset() {
+        this.retrieveCategories();
+        this.keyword = null;
       },
-      async fetch(page = 1, params = {}) {
-        const payload = {
-          page: page,
-          params: params
-        };
-        const { data, config } = await this.FETCH_CATEGORIES(payload);
+      async fetch(params = {}) {
+        const { data, config } = await this.fetchCategories(params);
         window.history.replaceState("categories", "", config.url);
         const pagination = { ...this.pagination };
         pagination.total = data.meta.total;
         pagination.pageSize = data.meta.per_page;
-        pagination.current = page;
+        pagination.current = data.meta.current_page;
         this.pagination = pagination;
       },
-      handleTableChange(pagination, filters, sorter) {
-        let params;
+      onChange(pagination, filters, sorter) {
         const pager = { ...this.pagination };
         pager.current = pagination.current;
         this.pagination = pager;
-        if (!IsEmptyObject(sorter)) {
-          params = {
-            sortBy: sorter.field,
-            orderBy: sorter.order === "ascend" ? "asc" : "desc",
-            keyword: this.keyword
-          };
-        } else {
-          params = {
-            keyword: this.keyword
-          };
-        }
-        this.fetch(pager.current, params);
+        let params = {
+          page: pagination.current,
+          sortBy: sorter.field,
+          orderBy:
+            sorter.order === "ascend"
+              ? "asc"
+              : sorter.order === "descend"
+              ? "desc"
+              : undefined,
+          keyword: this.keyword
+        };
+        this.fetch(params);
       }
     }
   };
 </script>
 
-<style>
-  .nav-table-data {
-    margin: 10px 0 15px 0;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-</style>
+<style></style>

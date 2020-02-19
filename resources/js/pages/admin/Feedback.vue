@@ -1,13 +1,12 @@
 <template>
-  <div>Feedback</div>
+  <feedback-table></feedback-table>
 </template>
 
 <script>
-export default {
-
-}
+  import FeedbackTable from "@/components/admin/feedback/FeedbackTable";
+  export default {
+    components: { FeedbackTable }
+  };
 </script>
 
-<style>
-
-</style>
+<style></style>

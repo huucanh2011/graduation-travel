@@ -11,6 +11,6 @@ mix.webpackConfig({
 
 mix
   .js("resources/js/app.js", "public/js")
-//   .sourceMaps()
+  //   .sourceMaps()
   // .extract(["vue"])
-  .sass("resources/sass/app.scss", "public/css");
+  .less("resources/js/assets/less/app.less", "public/css");

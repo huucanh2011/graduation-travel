@@ -21,7 +21,7 @@ class FeedbackResource extends JsonResource
             'phone_number' => $this->phone_number,
             'subject' => $this->subject,
             'content' => $this->content,
-            'seen' => (boolean) $this->seen,
+            'seen' => (bool) $this->seen,
             'created_at' => $this->created_at->diffForHumans(),
         ];
     }

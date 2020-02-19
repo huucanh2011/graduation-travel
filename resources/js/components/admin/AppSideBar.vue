@@ -1,16 +1,19 @@
 <template>
   <a-layout-sider
+    theme="light"
     :trigger="null"
     :width="250"
     breakpoint="md"
     collapsible
     v-model="collapsed"
+    :style="{ boxShadow: '1px 0 6px rgba(0,21,41,.35)', zIndex: '20' }"
   >
     <router-link :to="{ name: 'home' }">
       <div class="logo" />
+      <!-- <img :src="importLogo" alt="logo"> -->
     </router-link>
 
-    <a-menu theme="dark" :defaultSelectedKeys="['1']" mode="inline">
+    <a-menu :defaultSelectedKeys="['1']" mode="inline">
       <a-menu-item key="1">
         <router-link :to="{ name: 'admin.dashboard' }">
           <a-icon type="dashboard" />
@@ -19,13 +22,13 @@
       </a-menu-item>
       <a-menu-item key="2">
         <router-link :to="{ name: 'admin.permission' }">
-          <a-icon type="lock" />
+          <a-icon type="key" />
           <span>Phân quyền</span>
         </router-link>
       </a-menu-item>
       <a-menu-item key="3">
         <router-link :to="{ name: 'admin.roles' }">
-          <a-icon type="unlock" />
+          <a-icon type="lock" />
           <span>Quyền</span>
         </router-link>
       </a-menu-item>
@@ -43,7 +46,7 @@
       </a-menu-item>
       <a-menu-item key="6">
         <router-link :to="{ name: 'admin.feedbacks' }">
-          <a-icon type="customer-service" />
+          <a-icon type="message" />
           <span>Phản hồi</span>
         </router-link>
       </a-menu-item>
@@ -53,16 +56,25 @@
           <span>Slide</span>
         </router-link>
       </a-menu-item>
+
+      <a-divider :style="{ margin: '10px 0 !important' }" />
+
       <a-menu-item key="8">
         <router-link :to="{ name: 'admin.categories' }">
-          <a-icon type="switcher" />
+          <a-icon type="border" />
           <span>Loại tour</span>
         </router-link>
       </a-menu-item>
       <a-menu-item key="9">
         <router-link :to="{ name: 'admin.tours' }">
-          <a-icon type="switcher" />
+          <a-icon type="project" />
           <span>Tour</span>
+        </router-link>
+      </a-menu-item>
+      <a-menu-item key="10">
+        <router-link to="/">
+          <a-icon type="folder" />
+          <span>Giao dịch</span>
         </router-link>
       </a-menu-item>
     </a-menu>
@@ -77,15 +89,18 @@
       };
     },
     created() {
-      eventBus.$on("collapsed",  this.handleCollapsed);
+      eventBus.$on("collapsed", this.handleCollapsed);
     },
     beforeDestroy() {
       eventBus.$off("collapsed", this.handleCollapsed);
     },
     methods: {
       handleCollapsed(e) {
-        this.collapsed = e
-      },
+        this.collapsed = e;
+      }
+      // importLogo() {
+      //   return
+      // }
     }
   };
 </script>

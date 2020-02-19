@@ -14,7 +14,7 @@
         style="margin-left: 8px; width: 250px;"
       />
     </div>
-    
+
     <a-table
       :columns="columns"
       :loading="loading"
@@ -25,6 +25,11 @@
     >
       <template slot="no" slot-scope="text, record, index">
         <strong>{{ ++index }}</strong>
+      </template>
+      <template slot="role_name" slot-scope="record">
+        <span>
+          <a-tag :color="tagColor(record)">{{ record }}</a-tag>
+        </span>
       </template>
       <template slot="action" slot-scope="record">
         <a-button type="dashed" size="small" @click="onUpdate(record.id)">
@@ -46,7 +51,7 @@
 </template>
 
 <script>
-  import { isNotNull, cleanAccents } from "@/helpers/tools";
+  import { isNotNull, tagColor, cleanAccents } from "@/helpers/tools";
   import { mapActions, mapGetters } from "vuex";
   export default {
     data() {
@@ -67,7 +72,8 @@
           {
             title: "Tên quyền",
             dataIndex: "role_name",
-            sorter: true
+            sorter: true,
+            scopedSlots: { customRender: "role_name" }
           },
           {
             title: "Created at",
@@ -154,6 +160,9 @@
           keyword: this.keyword
         };
         this.fetch(params);
+      },
+      tagColor(v) {
+        return tagColor(v);
       }
     }
   };

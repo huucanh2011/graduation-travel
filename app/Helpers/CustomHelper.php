@@ -5,6 +5,11 @@ function helpSort($model, $array)
     return $model::orderBy($array['sortBy'], $array['orderBy']);
 }
 
+function helpSortWith($model, $array)
+{
+    return $model->orderBy($array['sortBy'], $array['orderBy']);
+}
+
 function isPaginate($result, $paginate = false)
 {
     return $paginate ? $result->paginate($paginate) : $result->get();
@@ -22,6 +27,15 @@ function querySearch($model, $keyword, $order, $rows, $paginate = false)
     $a = strtolower($keyword);
     $k = cleanAccents($a);
     $result = helpSort($model, $order);
+    $result = $result->whereLike($rows, $k);
+
+    return isPaginate($result, $paginate);
+}
+function querySearchWith($model, $keyword, $order, $rows, $paginate = false)
+{
+    $a = strtolower($keyword);
+    $k = cleanAccents($a);
+    $result = helpSortWith($model, $order);
     $result = $result->whereLike($rows, $k);
 
     return isPaginate($result, $paginate);

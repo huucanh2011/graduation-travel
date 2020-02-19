@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Slide;
+use Illuminate\Http\Request;
 use App\Http\Requests\SlideRequest;
 use App\Http\Resources\SlideResource;
 use App\Http\Controllers\Api\BaseController;
@@ -19,8 +20,17 @@ class SlideController extends BaseController
 
     public function index()
     {
+        $array = array(
+            'sortBy' => request()->sortBy ?? 'created_at',
+            'orderBy' => request()->orderBy ?? 'desc',
+        );
+        $columnSearch = array(
+            'title',
+            'description'
+        );
+
         return SlideResource::collection(
-            Slide::latest('is_active', 'created_at')->paginate(10)
+            querySearchWith(Slide::latest('is_active', 'created_at'), request()->keyword, $array, $columnSearch, 10)
         );
     }
 
@@ -50,6 +60,16 @@ class SlideController extends BaseController
         return $this->respondData(new SlideResource($slide), Response::HTTP_ACCEPTED);
     }
 
+    public function updateActive(Request $request, $id)
+    {
+        $slide = $this->slide->findOrFail($id);
+        $slide->update($request->only('is_active'));
+
+        // $this->handleUploadImage($slide, $request);
+
+        return $this->respondData(new SlideResource($slide), Response::HTTP_ACCEPTED);
+    }
+
     public function destroy($id)
     {
         $this->slide->findOrFail($id)->delete();
@@ -59,7 +79,7 @@ class SlideController extends BaseController
 
     private function handleUploadImage($slide, $request)
     {
-        if($request->has('image')) {
+        if ($request->has('image')) {
             $slide->update([
                 'image' => $request->image->store('uploads', 'public'),
             ]);

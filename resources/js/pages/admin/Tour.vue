@@ -1,13 +1,13 @@
 <template>
-  <div>Tour</div>
+  <tour-table></tour-table>
 </template>
 
 <script>
-export default {
+  import TourTable from "@/components/admin/tour/TourTable";
 
-}
+  export default {
+    components: { TourTable }
+  };
 </script>
 
-<style>
-
-</style>
+<style></style>

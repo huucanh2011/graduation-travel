@@ -11,11 +11,12 @@ import "./plugins/vue-progressbar";
 
 //helpers
 import "./helpers/notifications";
-import { dateFilter, statusFilter, upperCaseFilter } from "./helpers/filters";
+import { dateFilter, statusFilter, upperCaseFilter, tagColorFilter } from "./helpers/filters";
 
 Vue.filter("date", dateFilter);
 Vue.filter("status", statusFilter);
 Vue.filter("upperCase", upperCaseFilter);
+Vue.filter("tagColor", tagColorFilter);
 
 window.eventBus = new Vue();
 

@@ -1,13 +1,12 @@
 <template>
-  <div>Rating</div>
+  <rating-table></rating-table>
 </template>
 
 <script>
-export default {
-
-}
+  import RatingTable from "@/components/admin/rating/RatingTable";
+  export default {
+    components: { RatingTable }
+  };
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -16,7 +16,7 @@ export default [
     component: Dashboard
   },
   {
-    path: "permission",
+    path: "permissions",
     name: "admin.permission",
     component: Permission
   },
@@ -50,11 +50,11 @@ export default [
     name: "admin.settings",
     component: Setting
   },
-  // {
-  //   path: "categories",
-  //   name: "admin.categories",
-  //   component: Category
-  // },
+  {
+    path: "categories",
+    name: "admin.categories",
+    component: Category
+  },
   {
     path: "tours",
     name: "admin.tours",

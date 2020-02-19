@@ -4,7 +4,7 @@ import {
   updateCategory,
   deleteCategory
 } from "@/api/Category";
-import { vp, isNotNull } from "@/helpers/tools";
+import { vp } from "@/helpers/tools";
 
 const state = {
   categories: [],

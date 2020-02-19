@@ -9,6 +9,21 @@ export const isNotNull = v => {
   return false;
 };
 
+export const tagColor = v => {
+  let color = "cyan";
+  if (v === "admin") {
+    color = "orange";
+  }
+  if (v === "partner") {
+    color = "green";
+  }
+  return color;
+};
+
+export const colorActive = v => {
+  return v ? "blue" : "red";
+};
+
 export const cleanAccents = str => {
   if (str == "" || str == undefined) {
     return str;
