@@ -24,6 +24,12 @@ export function updateUser(id, payload) {
   });
 }
 
+export function updateActiveUser(id, payload) {
+  return axios.put(`update-active-user/${id}`, {
+    is_active: payload.is_active
+  });
+}
+
 export function deleteUser(id) {
   return axios.delete(`users/${id}`);
 }

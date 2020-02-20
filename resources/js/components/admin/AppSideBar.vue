@@ -72,7 +72,7 @@
         </router-link>
       </a-menu-item>
       <a-menu-item key="10">
-        <router-link to="/">
+        <router-link :to="{ name: 'admin.deals' }">
           <a-icon type="folder" />
           <span>Giao dịch</span>
         </router-link>

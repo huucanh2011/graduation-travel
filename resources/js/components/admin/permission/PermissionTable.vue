@@ -52,9 +52,9 @@
             :value="role.id"
             :style="{ margin: '0 4px' }"
           >
-            <a-tag :color="tagColor(role.role_name)">{{
-              role.role_name
-            }}</a-tag>
+            <a-tag :color="tagColor(role.role_name)">
+              {{ role.role_name }}
+            </a-tag>
           </a-radio>
         </a-radio-group>
       </template>

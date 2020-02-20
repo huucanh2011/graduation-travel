@@ -1,63 +1,57 @@
-const Dashboard = () => import("@/pages/admin/Dashboard");
-const Permission = () => import("@/pages/admin/Permission");
-const Role = () => import("@/pages/admin/Role");
-const User = () => import("@/pages/admin/User");
-const Rating = () => import("@/pages/admin/Rating");
-const Feedback = () => import("@/pages/admin/Feedback");
-const Slide = () => import("@/pages/admin/Slide");
-const Setting = () => import("@/pages/admin/Setting");
-const Category = () => import("@/pages/admin/Category");
-const Tour = () => import("@/pages/admin/Tour");
-
 export default [
   {
     path: "dashboard",
     name: "admin.dashboard",
-    component: Dashboard
+    component: () => import("@/pages/admin/Dashboard")
   },
   {
     path: "permissions",
     name: "admin.permission",
-    component: Permission
+    component: () => import("@/pages/admin/Permission")
   },
   {
     path: "roles",
     name: "admin.roles",
-    component: Role
+    component: () => import("@/pages/admin/Role")
   },
   {
     path: "users",
     name: "admin.users",
-    component: User
+    component: () => import("@/pages/admin/User")
   },
   {
     path: "ratings",
     name: "admin.ratings",
-    component: Rating
+    component: () => import("@/pages/admin/Rating")
   },
   {
     path: "feedbacks",
     name: "admin.feedbacks",
-    component: Feedback
+    component: () => import("@/pages/admin/Feedback")
   },
   {
     path: "slides",
     name: "admin.slides",
-    component: Slide
+    component: () => import("@/pages/admin/Slide")
   },
   {
     path: "settings",
     name: "admin.settings",
-    component: Setting
+    component: () => import("@/pages/admin/Setting")
   },
   {
     path: "categories",
     name: "admin.categories",
-    component: Category
+    component: () => import("@/pages/admin/Category")
   },
   {
     path: "tours",
     name: "admin.tours",
-    component: Tour
+    component: () => import("@/pages/admin/Tour")
+  },
+  {
+    path: "deals",
+    name: "admin.deals",
+    component: () => import("@/pages/admin/Deal")
   }
 ];

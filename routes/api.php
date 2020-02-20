@@ -38,5 +38,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('get-roles', 'RoleController@getRoles');
 
         Route::put('update-active-slide/{id}', 'SlideController@updateActive');
+
+        Route::put('update-active-user/{id}', 'UserController@updateActive');
     });
 });

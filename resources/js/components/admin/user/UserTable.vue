@@ -30,10 +30,20 @@
         <a-tag :color="colorActive(record)">{{ record | status }}</a-tag>
       </template>
       <template slot="active" slot-scope="record">
-        <a-switch :defaultChecked="record" size="small">
-          <a-icon type="check" slot="checkedChildren" />
-          <a-icon type="close" slot="unCheckedChildren" />
+        <a-switch
+          size="small"
+          :key="record.id"
+          :name="`u__${record.id}`"
+          :checked="record.is_active"
+          :defaultChecked="record.is_active"
+          @click="onClickActive"
+        >
         </a-switch>
+      </template>
+      <template slot="role" slot-scope="record">
+        <a-tag :color="tagColor(record)">
+          {{ record }}
+        </a-tag>
       </template>
       <template slot="action" slot-scope="record">
         <a-button type="dashed" size="small" @click="onUpdate(record.id)">
@@ -55,7 +65,12 @@
 </template>
 
 <script>
-  import { isNotNull, colorActive, cleanAccents } from "@/helpers/tools";
+  import {
+    isNotNull,
+    tagColor,
+    colorActive,
+    cleanAccents
+  } from "@/helpers/tools";
   import { mapActions, mapGetters } from "vuex";
   export default {
     data() {
@@ -90,13 +105,12 @@
           },
           {
             title: "Active",
-            dataIndex: "is_active",
-            key: "active",
             scopedSlots: { customRender: "active" }
           },
           {
             title: "Quyền",
-            dataIndex: "role"
+            dataIndex: "role",
+            scopedSlots: { customRender: "role" }
           },
           {
             title: "Tùy chọn",
@@ -116,7 +130,7 @@
       eventBus.$off("retrieveUsers", this.retrieveUsers);
     },
     methods: {
-      ...mapActions("user", ["fetchUsers", "deleteUser"]),
+      ...mapActions("user", ["fetchUsers", "updateActiveUser", "deleteUser"]),
       retrieveUsers() {
         this.fetch();
       },
@@ -141,9 +155,14 @@
           this.keyword = value;
         }
       },
-      onChangeActive(checked, id) {
-        console.log(checked);
-        console.log(id);
+      onClickActive(checked, e) {
+        const userId = +e.target.name.replace("u__", "");
+        const isActive = checked;
+        const user = {
+          id: userId,
+          values: { is_active: isActive }
+        };
+        this.updateActiveUser(user);
       },
       onReset() {
         this.retrieveUsers();
@@ -174,6 +193,9 @@
           keyword: this.keyword
         };
         this.fetch(params);
+      },
+      tagColor(v) {
+        return tagColor(v);
       },
       colorActive(v) {
         return colorActive(v);

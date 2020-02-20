@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\User;
+use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Users\CreateUserRequest;
@@ -52,6 +53,14 @@ class UserController extends BaseController
     {
         $user = $this->user->findOrFail($id);
         $user->update($request->all());
+
+        return $this->respondData(new UserResource($user), Response::HTTP_ACCEPTED);
+    }
+
+    public function updateActive(Request $request, $id)
+    {
+        $user = $this->user->findOrFail($id);
+        $user->update($request->only('is_active'));
 
         return $this->respondData(new UserResource($user), Response::HTTP_ACCEPTED);
     }

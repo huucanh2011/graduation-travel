@@ -51,10 +51,7 @@
           </a-menu-item>
           <a-menu-divider />
           <a-menu-item>
-            <a href="#">
-              <a-icon type="logout" />
-              Đăng xuất
-            </a>
+            <a-button type="link" @click="logout">Đăng xuất</a-button>
           </a-menu-item>
         </a-menu>
       </a-dropdown>
@@ -63,6 +60,7 @@
 </template>
 
 <script>
+  import { mapActions } from "vuex";
   export default {
     data() {
       return {
@@ -70,6 +68,7 @@
       };
     },
     methods: {
+      ...mapActions("auth", ["logout"]),
       handleCollapsed() {
         this.collapsed = !this.collapsed;
         eventBus.$emit("collapsed", this.collapsed);

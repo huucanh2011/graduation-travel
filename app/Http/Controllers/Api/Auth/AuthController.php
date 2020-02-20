@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\User;
 use Socialite;
-use Validator;
-use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
@@ -42,11 +40,12 @@ class AuthController extends BaseController
         // return $this->respondWithToken($token);
     }
 
-    public function login(LoginRequest $request) {
+    public function login(LoginRequest $request)
+    {
         $credentials = ['email' => $request->email, 'password' => $request->password];
-        
+
         if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Wrong email or password'], Response::HTTP_UNAUTHORIZED);
+            return response()->json(['message' => 'Wrong email or password'], Response::HTTP_UNAUTHORIZED);
         }
 
         return $this->respondWithToken($token);
@@ -54,9 +53,17 @@ class AuthController extends BaseController
 
     public function register(RegisterRequest $request)
     {
-        User::create($request->all());
+        if ($request->role_id == 2) {
+            $request['is_active'] = false;
+            $user = User::create($request->all());
+        } else {
+            $user = User::create($request->all());
+        }
 
-        return $this->login($request);
+        auth()->login($user);
+        $token = JWTAuth::fromUser($user);
+
+        return $this->respondWithToken($token);
     }
 
     public function logout()
@@ -81,7 +88,7 @@ class AuthController extends BaseController
     protected function respondWithToken($token)
     {
         return response()->json([
-            'access_token' => $token,
+            '__auth' => $token,
             'user' => auth()->user(),
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 24 * 30 // 30 days

@@ -1,4 +1,4 @@
-import { getUsers, createUser, updateUser, deleteUser } from "@/api/User";
+import { getUsers, createUser, updateUser, updateActiveUser, deleteUser } from "@/api/User";
 import { getRoles } from "@/api/Permission";
 import { vp } from "@/helpers/tools";
 
@@ -85,6 +85,21 @@ const actions = {
   async updateUser({ commit }, payload) {
     try {
       const { data, status } = await updateUser(payload.id, payload.values);
+      if (data && status === 202) {
+        commit("updateUser", data);
+        vp.$notify.success("Success", "Cập nhật thành công");
+      }
+    } catch ({ response }) {
+      if (response && response.status === 422) {
+        const message = Object.values(response.data.message)[0];
+        vp.$notify.error("Error", message);
+      }
+    }
+  },
+
+  async updateActiveUser({ commit }, payload) {
+    try {
+      const { data, status } = await updateActiveUser(payload.id, payload.values);
       if (data && status === 202) {
         commit("updateUser", data);
         vp.$notify.success("Success", "Cập nhật thành công");

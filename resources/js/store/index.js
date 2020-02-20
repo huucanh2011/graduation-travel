@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import authentication from "./modules/authentication";
+import auth from "./modules/auth";
 import category from "./modules/category";
 import dashboard from "./modules/dashboard";
 import feedback from "./modules/feedback";
@@ -18,7 +18,7 @@ const debug = process.env.NODE_ENV !== "production";
 
 export default new Vuex.Store({
   modules: {
-    authentication,
+    auth,
     category,
     dashboard,
     feedback,
