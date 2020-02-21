@@ -33,7 +33,7 @@
             size="small"
             icon="user"
           />
-          <span>ADMIN</span>
+          <span>{{ user.name }}</span>
         </div>
 
         <a-menu slot="overlay">
@@ -51,7 +51,9 @@
           </a-menu-item>
           <a-menu-divider />
           <a-menu-item>
-            <a-button type="link" @click="logout">Đăng xuất</a-button>
+            <a href="#" @click="logout">
+              <a-icon type="logout" :style="{ marginRight: '5px' }" />Đăng xuất
+            </a>
           </a-menu-item>
         </a-menu>
       </a-dropdown>
@@ -60,12 +62,15 @@
 </template>
 
 <script>
-  import { mapActions } from "vuex";
+  import { mapActions, mapGetters } from "vuex";
   export default {
     data() {
       return {
         collapsed: false
       };
+    },
+    computed: {
+      ...mapGetters("auth", ["user"])
     },
     methods: {
       ...mapActions("auth", ["logout"]),

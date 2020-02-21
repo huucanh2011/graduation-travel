@@ -3,8 +3,8 @@ import { vp } from "./tools";
 const notification = vp.$notification;
 
 notification.config({
-  placement: "bottomLeft",
-  bottom: "25px"
+  placement: "topRight",
+  top: "24px"
 });
 
 function toast({ type, message, description, duration }) {

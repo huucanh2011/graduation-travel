@@ -17,25 +17,25 @@ export default [
     path: "/login",
     name: "login",
     meta: { guest: true },
-    component: () => import("@/components/auth/Login")
+    component: () => import("@/pages/auth/Login")
   },
   {
     path: "/register",
     name: "register",
     meta: { guest: true },
-    component: () => import("@/components/auth/Register")
+    component: () => import("@/pages/auth/Register")
   },
   {
     path: "/forgot-password",
     name: "forgotpassword",
     meta: { guest: true },
-    component: () => import("@/components/auth/ForgotPassword")
+    component: () => import("@/pages/auth/ForgotPassword")
   },
   {
-    path: "/response-password-reset/token=:token",
+    path: "/response-password-reset",
     name: "resetpassword",
     meta: { guest: true },
-    component: () => import("@/components/auth/ResetPassword")
+    component: () => import("@/pages/auth/ResetPassword")
   },
   {
     path: "*",

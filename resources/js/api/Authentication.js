@@ -39,3 +39,7 @@ export function resetPassword(payload) {
     resetToken: payload.resetToken
   });
 }
+
+export function loginSocialAccount(provider) {
+  return axios.get(`auth/${provider}`);
+}

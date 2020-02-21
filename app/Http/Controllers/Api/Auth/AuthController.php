@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\User;
-use Socialite;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Requests\Auth\LoginRequest;
+use Laravel\Socialite\Facades\Socialite;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Controllers\Api\BaseController;
 use Symfony\Component\HttpFoundation\Response;

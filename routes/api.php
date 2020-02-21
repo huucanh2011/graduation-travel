@@ -15,7 +15,7 @@ Route::group(['prefix' => 'v1'], function () {
             // Route::group(['middleware' => ['web']], function () {
             //     Route::get('{provider}', 'AuthController@redirectToProvider');
             //     Route::get('{provider}/callback', 'AuthController@handleProviderCallback');
-            // });    
+            // });
         });
 
         Route::apiResources([

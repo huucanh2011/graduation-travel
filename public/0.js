@@ -77,6 +77,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -84,6 +86,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       collapsed: false
     };
   },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])("auth", ["user"])),
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("auth", ["logout"]), {
     handleCollapsed: function handleCollapsed() {
       this.collapsed = !this.collapsed;
@@ -396,7 +399,7 @@ var render = function() {
                     attrs: { size: "small", icon: "user" }
                   }),
                   _vm._v(" "),
-                  _c("span", [_vm._v("ADMIN")])
+                  _c("span", [_vm._v(_vm._s(_vm.user.name))])
                 ],
                 1
               ),
@@ -435,17 +438,20 @@ var render = function() {
                   _vm._v(" "),
                   _c("a-menu-divider"),
                   _vm._v(" "),
-                  _c(
-                    "a-menu-item",
-                    [
-                      _c(
-                        "a-button",
-                        { attrs: { type: "link" }, on: { click: _vm.logout } },
-                        [_vm._v("Đăng xuất")]
-                      )
-                    ],
-                    1
-                  )
+                  _c("a-menu-item", [
+                    _c(
+                      "a",
+                      { attrs: { href: "#" }, on: { click: _vm.logout } },
+                      [
+                        _c("a-icon", {
+                          style: { marginRight: "5px" },
+                          attrs: { type: "logout" }
+                        }),
+                        _vm._v("Đăng xuất\n          ")
+                      ],
+                      1
+                    )
+                  ])
                 ],
                 1
               )

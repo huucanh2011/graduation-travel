@@ -5,7 +5,8 @@ import {
   refresh,
   me,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  loginSocialAccount
 } from "@/api/Authentication";
 import { getToken, saveToken, destroyToken } from "@/helpers/jwt.service";
 import { setHeader } from "@/helpers/set-header";
@@ -29,6 +30,9 @@ const getters = {
   }
 };
 const actions = {
+  async loginSocialAccount({ commit }, provider) {
+    await loginSocialAccount(provider);
+  },
   async login({ commit }, credentials) {
     return new Promise((reslove, reject) => {
       commit("setLoading");
@@ -108,6 +112,7 @@ const actions = {
       }
     } catch ({ response }) {
       if (response) {
+        commit("purgeLoading");
         const message = Object.values(response.data.message)[0];
         vp.$notify.error("Error", message);
       }
@@ -123,7 +128,8 @@ const actions = {
       }
     } catch ({ response }) {
       if (response && response.status === 422) {
-        const message = Object.values(response.data.message)[0];
+        commit("purgeLoading");
+        const message = Object.values(response.data.message);
         vp.$notify.error("Error", message);
       }
     }
