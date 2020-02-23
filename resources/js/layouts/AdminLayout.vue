@@ -29,42 +29,54 @@
   };
 </script>
 
-<style lang="css">
-  #layout-admin .trigger {
-    font-size: 18px;
-    line-height: 64px;
-    cursor: pointer;
-    transition: color 0.3s;
+<style lang="less">
+  #layout-admin {
+    .trigger {
+      font-size: 18px;
+      line-height: 64px;
+      cursor: pointer;
+      transition: color 0.3s;
+      &:hover {
+        color: #1890ff;
+      }
+    }
+    .logo {
+      height: 32px;
+      margin: 16px;
+      background: #1890ff;
+    }
+    .layout-content {
+      margin: 24px;
+      background: #fff;
+      min-height: 280px;
+    }
   }
 
-  #layout-admin .trigger:hover {
-    color: #1890ff;
-  }
-
-  #layout-admin .logo {
-    height: 32px;
-    background: rgb(241, 241, 241);
-    margin: 16px;
-  }
-
-  #layout-admin .layout-content {
-    margin: 24px;
-    background: #fff;
-    min-height: 280px;
-  }
-
-  #layout-admin .layout-header {
-    background: #fff;
-    padding: 0 24px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
   .ant-menu-root.ant-menu-inline,
   .ant-menu-root.ant-menu-vertical,
   .ant-menu-root.ant-menu-vertical-left,
   .ant-menu-root.ant-menu-vertical-right {
     border: none;
+  }
+
+  .ant-table-pagination.ant-pagination {
+    float: none;
+    text-align: center;
+  }
+
+  .drawer-footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid #e9e9e9;
+    padding: 10px 16px;
+    background: #fff;
+    text-align: right;
+    .flex-drawer-footer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
   }
 </style>

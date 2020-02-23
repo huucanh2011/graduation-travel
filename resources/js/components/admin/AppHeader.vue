@@ -2,7 +2,7 @@
   <a-layout-header class="layout-header">
     <a-icon
       class="trigger"
-      :type="collapsed ? 'arrow-right' : 'arrow-left'"
+      :type="collapsed ? 'menu-unfold' : 'menu-fold'"
       @click="handleCollapsed"
     />
 
@@ -82,4 +82,14 @@
   };
 </script>
 
-<style></style>
+<style lang="less">
+  .layout-header {
+    background: #fff;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 0.3px 5px 0px rgba(0, 21, 41, 0.35);
+  }
+</style>

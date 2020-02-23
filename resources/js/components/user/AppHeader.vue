@@ -79,8 +79,4 @@
       margin-left: auto;
     }
   }
-
-  .ant-input-affix-wrapper .ant-input {
-    border: none !important;
-  }
 </style>

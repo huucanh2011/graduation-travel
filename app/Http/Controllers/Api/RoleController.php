@@ -15,6 +15,7 @@ class RoleController extends BaseController
 
     public function __construct(Role $role)
     {
+        $this->middleware(['jwt.auth', 'auth.admin']);
         $this->role = $role;
     }
 
@@ -32,7 +33,7 @@ class RoleController extends BaseController
         );
 
         return RoleResource::collection(
-            querySearch(Role::class, request()->keyword, $array, $columnSearch, 10)
+            querySearch(Role::class, request()->q, $array, $columnSearch, 10)
         );
     }
 
@@ -71,9 +72,4 @@ class RoleController extends BaseController
             Role::oldest('id')->get()
         );
     }
-
-    // public function search(Request $request)
-    // {
-
-    // }
 }

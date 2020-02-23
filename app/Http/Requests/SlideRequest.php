@@ -28,10 +28,9 @@ class SlideRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
+            'title' => 'required|max:255',
             'image' => 'required|string|max:255',
-            'link' => 'required|string|max:255',
+            'link' => 'max:255',
             'is_active' => 'required|boolean',
         ];
     }

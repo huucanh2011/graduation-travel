@@ -5,11 +5,11 @@
       <a-button
         icon="sync"
         :style="{ marginLeft: '8px' }"
-        @click="onReset"
+        @click="resetTable"
       ></a-button>
       <a-input-search
         placeholder="Tìm kiếm..."
-        v-model="keyword"
+        v-model="q"
         @search="onSearch"
         style="margin-left: 8px; width: 250px;"
       />
@@ -21,28 +21,27 @@
       :rowKey="record => record.id"
       :dataSource="slides"
       :pagination="pagination"
-      @change="onChange"
+      @change="onChangeTable"
     >
-      <template slot="no" slot-scope="text, record, index">
-        <strong>{{ ++index }}</strong>
-      </template>
-      <template slot="image" slot-scope="record">
-        <span>
-          {{ record }}
-        </span>
-      </template>
-      <template slot="link" slot-scope="record">
-        <router-link :to="record">
-          Link to description
-        </router-link>
-      </template>
-      <template slot="active" slot-scope="record">
-        <a-checkbox
-          @change="onChangeActive"
-          :defaultChecked="record.is_active"
-          :value="record.id"
-        ></a-checkbox>
-      </template>
+      <img
+        slot="image"
+        slot-scope="record"
+        :src="record.image"
+        :alt="record.title"
+        width="100%"
+      />
+      <a slot="link" slot-scope="record" :href="record">Chuyển đến link</a>
+      <a-switch
+        slot="active"
+        slot-scope="record"
+        size="small"
+        :key="record.id"
+        :name="`s__${record.id}`"
+        :checked="record.is_active"
+        :defaultChecked="record.is_active"
+        @click="onClickActive"
+      >
+      </a-switch>
       <template slot="action" slot-scope="record">
         <a-button type="dashed" size="small" @click="onUpdate(record.id)">
           <a-icon type="edit"></a-icon>
@@ -63,13 +62,15 @@
 </template>
 
 <script>
-  import { isNotNull, tagColor, cleanAccents } from "@/helpers/tools";
+  import { isNotNull, publicPath } from "@/helpers/tools";
   import { mapActions, mapGetters } from "vuex";
   export default {
     data() {
       return {
-        pagination: {},
-        keyword: null
+        pagination: {
+          style: { textAlign: "center" }
+        },
+        q: null
       };
     },
     computed: {
@@ -77,38 +78,33 @@
       columns() {
         const columns = [
           {
-            title: "#No",
-            scopedSlots: { customRender: "no" }
-          },
-          {
             title: "Tiêu đề",
             dataIndex: "title",
+            key: "title",
             sorter: true
           },
           {
             title: "Hình",
-            dataIndex: "image",
+            key: "image",
             align: "center",
-            width: "30%",
+            width: "20%",
             scopedSlots: { customRender: "image" }
           },
           {
             title: "Link",
             dataIndex: "link",
+            key: "link",
             scopedSlots: { customRender: "link" }
           },
           {
             title: "Active",
+            key: "active",
             align: "center",
             scopedSlots: { customRender: "active" }
           },
           {
-            title: "Created at",
-            dataIndex: "created_at",
-            sorter: true
-          },
-          {
             title: "Tùy chọn",
+            key: "action",
             align: "center",
             scopedSlots: { customRender: "action" }
           }
@@ -117,7 +113,7 @@
       }
     },
     created() {
-      this.fetch();
+      this.fetchData();
       eventBus.$on("retrieveSlides", this.retrieveSlides);
     },
     beforeDestroy() {
@@ -129,42 +125,7 @@
         "updateActiveSlide",
         "deleteSlide"
       ]),
-      retrieveSlides() {
-        this.fetch();
-      },
-      onOpen() {
-        eventBus.$emit("openDrawerSlide", true);
-      },
-      onUpdate(slideId) {
-        const roleUpdate = this.getSlideById(slideId);
-        eventBus.$emit("setFormSlide", roleUpdate, slideId, true, true);
-      },
-      onDelete(slideId) {
-        this.deleteSlide(slideId);
-        this.fetch();
-      },
-      onSearch(value, event) {
-        if (isNotNull(value)) {
-          let params = {
-            page: this.pagination.current,
-            keyword: value
-          };
-          this.fetch(params);
-          this.keyword = value;
-        }
-      },
-      onReset() {
-        this.retrieveSlides();
-        this.keyword = null;
-      },
-      onChangeActive(e) {
-        const slide = {
-          id: e.target.value,
-          values: { is_active: e.target.checked }
-        };
-        this.updateActiveSlide(slide);
-      },
-      async fetch(params = {}) {
+      async fetchData(params = {}) {
         const pagination = { ...this.pagination };
         const { data, config } = await this.fetchSlides(params);
         window.history.replaceState("slides", "", config.url);
@@ -173,7 +134,7 @@
         pagination.current = data.meta.current_page;
         this.pagination = pagination;
       },
-      onChange(pagination, filters, sorter) {
+      onChangeTable(pagination, filters, sorter) {
         const pager = { ...this.pagination };
         pager.current = pagination.current;
         this.pagination = pager;
@@ -186,12 +147,46 @@
               : sorter.order === "descend"
               ? "desc"
               : undefined,
-          keyword: this.keyword
+          q: this.q
         };
-        this.fetch(params);
+        this.fetchData(params);
       },
-      tagColor(v) {
-        return tagColor(v);
+      onOpen() {
+        eventBus.$emit("openDrawerSlide", true);
+      },
+      onUpdate(slideId) {
+        const slideUpdate = this.getSlideById(slideId);
+        eventBus.$emit("setFormSlide", slideUpdate, slideId, true, true);
+      },
+      onDelete(slideId) {
+        this.deleteSlide(slideId);
+        this.fetchData();
+      },
+      retrieveSlides() {
+        this.fetchData();
+      },
+      resetTable() {
+        this.retrieveSlides();
+        this.q = null;
+      },
+      onSearch(q) {
+        if (isNotNull(q)) {
+          let params = {
+            page: this.pagination.current,
+            q: q
+          };
+          this.fetchData(params);
+          this.q = q;
+        }
+      },
+      onClickActive(checked, e) {
+        const slideId = +e.target.name.replace("s__", "");
+        const isActive = checked;
+        const slide = {
+          id: slideId,
+          values: { is_active: isActive }
+        };
+        this.updateActiveSlide(slide);
       }
     }
   };

@@ -8,6 +8,7 @@ import App from "./App.vue";
 //plugins
 import "./plugins/ant-design";
 import "./plugins/vue-progressbar";
+// import "./plugins/vue-cropper";
 
 //helpers
 import { setHeader } from "./helpers/set-header";

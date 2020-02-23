@@ -35,7 +35,7 @@ class FeedbackController extends BaseController
         );
 
         return FeedbackResource::collection(
-            querySearch(Feedback::class, request()->keyword, $array, $columnSearch, 10)
+            querySearch(Feedback::class, request()->q, $array, $columnSearch, 10)
         );
     }
 

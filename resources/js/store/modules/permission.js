@@ -27,8 +27,8 @@ const actions = {
       url += `?page=${payload.page}`;
     }
 
-    if (payload.keyword) {
-      url += `&keyword=${payload.keyword}`;
+    if (payload.q) {
+      url += `&q=${payload.q}`;
     }
 
     if (payload.sortBy && payload.orderBy) {

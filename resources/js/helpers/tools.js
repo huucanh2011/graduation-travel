@@ -50,3 +50,22 @@ export const cleanAccents = str => {
   str = str.trim().toLowerCase();
   return str;
 };
+
+export const blobToFile = (theBlob, fileName) => {
+  theBlob.lastModifiedDate = new Date();
+  theBlob.name = fileName;
+  return theBlob;
+};
+
+export const preview_image = file => {
+  const reader = new FileReader();
+  reader.onload = () => {
+    const output = document.getElementById("image-preview");
+    output["src"] = reader.result;
+  };
+  reader.readAsDataURL(file);
+};
+
+export const publicPath = () => {
+  return window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/';
+};

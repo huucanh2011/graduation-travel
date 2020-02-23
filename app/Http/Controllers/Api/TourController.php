@@ -38,7 +38,7 @@ class TourController extends BaseController
         );
 
         return TourResource::collection(
-            querySearchWith(Tour::with(['tourCategory', 'user']), request()->keyword, $array, $columnSearch, 10)
+            querySearchWith(Tour::with(['tourCategory', 'user']), request()->q, $array, $columnSearch, 10)
         );
     }
 

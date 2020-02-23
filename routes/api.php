@@ -40,5 +40,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::put('update-active-slide/{id}', 'SlideController@updateActive');
 
         Route::put('update-active-user/{id}', 'UserController@updateActive');
+
+        Route::post('upload/{model}', 'UploadController@store');
     });
 });

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <slide-table></slide-table>
-    <slide-form></slide-form>
+    <SlideTable />
+    <SlideForm />
   </div>
 </template>
 

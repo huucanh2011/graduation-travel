@@ -21,8 +21,6 @@ class SlideResource extends JsonResource
             'image' => $this->image,
             'link' => $this->link,
             'is_active' => (bool) $this->is_active,
-            'created_at' => (string) $this->created_at->diffForHumans(),
-            'updated_at' => (string) $this->updated_at->diffForHumans(),
         ];
     }
 }

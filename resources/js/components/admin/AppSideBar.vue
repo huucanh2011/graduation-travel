@@ -1,6 +1,5 @@
 <template>
   <a-layout-sider
-    theme="light"
     :trigger="null"
     :width="250"
     breakpoint="md"
@@ -9,11 +8,12 @@
     :style="{ boxShadow: '1px 0 6px rgba(0,21,41,.35)', zIndex: '20' }"
   >
     <router-link :to="{ name: 'home' }">
-      <div class="logo" />
-      <!-- <img :src="importLogo" alt="logo"> -->
+      <div class="logo">
+        <!-- <img src="@/assets/logo5.jpg" alt="logo" :style="{ height: '100%', width: '100%' }" /> -->
+      </div>
     </router-link>
 
-    <a-menu :defaultSelectedKeys="['1']" mode="inline">
+    <a-menu theme="dark" :defaultSelectedKeys="['1']" mode="inline">
       <a-menu-item key="1">
         <router-link :to="{ name: 'admin.dashboard' }">
           <a-icon type="dashboard" />
@@ -44,37 +44,46 @@
           <span>Đánh giá</span>
         </router-link>
       </a-menu-item>
+
       <a-menu-item key="6">
-        <router-link :to="{ name: 'admin.feedbacks' }">
-          <a-icon type="message" />
-          <span>Phản hồi</span>
+        <router-link :to="{ name: 'admin.categories' }">
+          <a-icon type="border" />
+          <span>Loại tour</span>
         </router-link>
       </a-menu-item>
       <a-menu-item key="7">
+        <router-link :to="{ name: 'admin.tours' }">
+          <a-icon type="project" />
+          <span>Tour</span>
+        </router-link>
+      </a-menu-item>
+      <a-menu-item key="8">
+        <router-link :to="{ name: 'admin.deals' }">
+          <a-icon type="folder" />
+          <span>Giao dịch</span>
+        </router-link>
+      </a-menu-item>
+
+      <a-divider :style="{ margin: '10px 0 !important' }" />
+
+      <a-menu-item key="9">
+        <router-link :to="{ name: 'admin.feedbacks' }">
+          <a-icon type="mail" />
+          <span>Phản hồi</span>
+        </router-link>
+      </a-menu-item>
+
+      <a-menu-item key="10">
         <router-link :to="{ name: 'admin.slides' }">
           <a-icon type="switcher" />
           <span>Slide</span>
         </router-link>
       </a-menu-item>
 
-      <a-divider :style="{ margin: '10px 0 !important' }" />
-
-      <a-menu-item key="8">
-        <router-link :to="{ name: 'admin.categories' }">
-          <a-icon type="border" />
-          <span>Loại tour</span>
-        </router-link>
-      </a-menu-item>
-      <a-menu-item key="9">
-        <router-link :to="{ name: 'admin.tours' }">
-          <a-icon type="project" />
-          <span>Tour</span>
-        </router-link>
-      </a-menu-item>
-      <a-menu-item key="10">
-        <router-link :to="{ name: 'admin.deals' }">
-          <a-icon type="folder" />
-          <span>Giao dịch</span>
+      <a-menu-item key="11">
+        <router-link :to="{ name: 'admin.settings' }">
+          <a-icon type="setting" />
+          <span>Cài đặt</span>
         </router-link>
       </a-menu-item>
     </a-menu>

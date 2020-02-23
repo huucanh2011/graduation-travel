@@ -22,18 +22,18 @@ function querySort($model, $array, $paginate = false)
     return isPaginate($result, $paginate);
 }
 
-function querySearch($model, $keyword, $order, $rows, $paginate = false)
+function querySearch($model, $q, $order, $rows, $paginate = false)
 {
-    $a = strtolower($keyword);
+    $a = strtolower($q);
     $k = cleanAccents($a);
     $result = helpSort($model, $order);
     $result = $result->whereLike($rows, $k);
 
     return isPaginate($result, $paginate);
 }
-function querySearchWith($model, $keyword, $order, $rows, $paginate = false)
+function querySearchWith($model, $q, $order, $rows, $paginate = false)
 {
-    $a = strtolower($keyword);
+    $a = strtolower($q);
     $k = cleanAccents($a);
     $result = helpSortWith($model, $order);
     $result = $result->whereLike($rows, $k);
@@ -79,4 +79,16 @@ function cleanAccents($str)
     $str = preg_replace("/%20/", " ", $str);
 
     return $str;
+}
+
+
+
+function base64ToImage($json)
+{
+
+    $file = json_decode($json);
+
+    return $file;
+
+    return base64_decode($json);
 }

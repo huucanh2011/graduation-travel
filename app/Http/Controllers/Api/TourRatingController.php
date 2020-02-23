@@ -28,7 +28,7 @@ class TourRatingController extends BaseController
         );
 
         return TourRatingResource::collection(
-            querySearch(TourRating::class, request()->keyword, $array, $columnSearch, 10)
+            querySearch(TourRating::class, request()->q, $array, $columnSearch, 10)
         );
     }
 

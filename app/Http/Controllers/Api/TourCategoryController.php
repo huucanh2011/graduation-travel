@@ -32,7 +32,7 @@ class TourCategoryController extends BaseController
         );
 
         return TourCategoryResource::collection(
-            querySearch(TourCategory::class, request()->keyword, $array, $columnSearch, 5)
+            querySearch(TourCategory::class, request()->q, $array, $columnSearch, 5)
         );
     }
 

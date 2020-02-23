@@ -31,7 +31,7 @@ class UserController extends BaseController
         );
 
         return UserResource::collection(
-            querySearch(User::class, request()->keyword, $array, $columnSearch, 10)
+            querySearch(User::class, request()->q, $array, $columnSearch, 10)
         );
     }
 

@@ -8,7 +8,7 @@
         <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
         <title>{{ config('app.name') }}</title>
 
-        <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+        {{-- <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet"> --}}
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     </head>
     <body>
@@ -17,14 +17,14 @@
         </noscript>
         <div id="app"></div>
         
-        {{-- @if (app()->isLocal())
+        {{-- @if (app()->isLocal()) --}}
             <script src="{{ mix('js/app.js') }}"></script>
-        @else --}}
+        {{-- @else --}}
             {{-- https://laravel.com/docs/5.8/mix#working-with-scripts --}}
-            {{-- <script src="{{ mix('js/manifest.js') }}"></script> --}}
-            {{-- <script src="{{ mix('js/vendor.js') }}"></script> --}}
-            <script src="{{ mix('js/app.js') }}"></script>
-        {{-- @endif --}}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+            {{-- <script src="{{ mix('js/app.js') }}" defer></script>
+            <script src="{{ mix('js/manifest.js') }}"></script>
+            <script src="{{ mix('js/vendor.js') }}"></script>
+        @endif --}}
+        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script> --}}
     </body>
 </html>
