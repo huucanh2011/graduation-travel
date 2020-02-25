@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Role;
+use App\Models\Role;
+use Illuminate\Support\Str;
 use App\Http\Resources\RoleResource;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Roles\CreateRoleRequest;
@@ -15,30 +16,31 @@ class RoleController extends BaseController
 
     public function __construct(Role $role)
     {
-        $this->middleware(['jwt.auth', 'auth.admin']);
+        // $this->middleware(['jwt.auth', 'auth.admin']);
         $this->role = $role;
     }
 
     public function index()
     {
-        // return cleanAccents();
-
         $array = array(
             'sortBy' => request()->sortBy ?? 'created_at',
             'orderBy' => request()->orderBy ?? 'desc',
         );
         $columnSearch = array(
             'role_name',
+            'slug',
             'id'
         );
+        $pageSize = request()->pageSize ? (int) request()->pageSize : 5;
 
         return RoleResource::collection(
-            querySearch(Role::class, request()->q, $array, $columnSearch, 10)
+            querySearch(Role::class, request()->q, $array, $columnSearch, $pageSize)
         );
     }
 
     public function store(CreateRoleRequest $request)
     {
+        $request['slug'] = Str::slug($request->role_name);
         $role = $this->role->create($request->all());
 
         return $this->respondData(new RoleResource($role), Response::HTTP_CREATED);
@@ -54,6 +56,7 @@ class RoleController extends BaseController
     public function update(UpdateRoleRequest $request, $id)
     {
         $role = $this->role->findOrFail($id);
+        $request['slug'] = Str::slug($request->role_name);
         $role->update($request->all());
 
         return $this->respondData(new RoleResource($role), Response::HTTP_ACCEPTED);

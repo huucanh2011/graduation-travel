@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Tour;
+use App\Models\Tour;
 use Illuminate\Support\Str;
 use App\Http\Requests\TourRequest;
 use App\Http\Resources\TourResource;
@@ -77,15 +77,15 @@ class TourController extends BaseController
         return $this->respondSuccess(config('message.delete_success'));
     }
 
-    private function handleUploadImage($slide, $request)
-    {
-        if ($request->has('image')) {
-            $slide->update([
-                'image' => $request->image->store('uploads', 'public'),
-            ]);
+    // private function handleUploadImage($slide, $request)
+    // {
+    //     if ($request->has('image')) {
+    //         $slide->update([
+    //             'image' => $request->image->store('uploads', 'public'),
+    //         ]);
 
-            $image = Image::make(public_path('storage/' . $slide->image))->fit(600, 400);
-            $image->save();
-        }
-    }
+    //         $image = Image::make(public_path('storage/' . $slide->image))->fit(600, 400);
+    //         $image->save();
+    //     }
+    // }
 }

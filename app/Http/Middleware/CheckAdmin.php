@@ -16,7 +16,7 @@ class CheckAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (auth()->user()->role->role_name !== 'admin') {
+        if (auth()->user()->role_slug !== 'admin') {
             return response()->json(['message' => 'Access denied'], Response::HTTP_FORBIDDEN);
         }
 

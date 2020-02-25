@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\TourCategory;
 use Illuminate\Support\Str;
+use App\Models\TourCategory;
 use App\Http\Requests\TourCategoryRequest;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\TourCategoryResource;

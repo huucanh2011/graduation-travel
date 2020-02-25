@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Tour;
-use App\TourDeparture;
+use App\Models\Tour;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Models\TourDeparture;
 use App\Http\Controllers\Api\BaseController;
 use Symfony\Component\HttpFoundation\Response;
 

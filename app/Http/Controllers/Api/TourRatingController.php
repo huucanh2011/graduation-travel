@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\TourRating;
+use App\Models\TourRating;
 use Illuminate\Http\Request;
 use App\Http\Resources\TourRatingResource;
 use App\Http\Controllers\Api\BaseController;

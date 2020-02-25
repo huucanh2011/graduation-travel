@@ -12,7 +12,7 @@
       <a-form-item label="Tên quyền">
         <a-input
           v-decorator="[
-            'role_name',
+            'name',
             {
               rules: [
                 { required: true, message: 'Tên quyền không được trống!' },
@@ -69,12 +69,12 @@
       },
       initForm() {
         this.form = this.$form.createForm(this);
-        this.form.getFieldDecorator("role_name", { initialValue: "" });
+        this.form.getFieldDecorator("name", { initialValue: "" });
       },
       setFieldForm(data, roleId, visible, editMode) {
         this.roleIdUpdate = roleId;
         this.form.setFieldsValue({
-          role_name: data.role_name
+          name: data.name
         });
         this.editMode = editMode;
         this.visible = visible;

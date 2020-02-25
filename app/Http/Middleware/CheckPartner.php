@@ -16,7 +16,7 @@ class CheckPartner
      */
     public function handle($request, Closure $next)
     {
-        if (auth()->user()->role->role_name !== 'partner') {
+        if (auth()->user()->role_slug !== 'partner') {
             return response()->json(['message' => 'Access denied'], Response::HTTP_FORBIDDEN);
         }
 

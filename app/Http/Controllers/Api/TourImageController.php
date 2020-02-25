@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Tour;
-use App\TourImage;
+use App\Models\Tour;
+use App\Models\TourImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\BaseController;
 use Symfony\Component\HttpFoundation\Response;

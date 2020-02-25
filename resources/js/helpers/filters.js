@@ -18,12 +18,15 @@ const upperCaseFilter = value => {
 };
 
 const tagColorFilter = value => {
-  const color = "cyan";
+  let color;
   if (value === "admin") {
     color = "orange";
   }
   if (value === "partner") {
     color = "green";
+  }
+  if (value === "user") {
+    color = "cyan";
   }
   return color;
 };

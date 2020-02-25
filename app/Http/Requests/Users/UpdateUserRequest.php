@@ -32,7 +32,7 @@ class UpdateUserRequest extends FormRequest
             'phone_number' => 'string|max:12',
             'address' => 'string|max:255',
             'is_active' => 'required|boolean',
-            'role_id' => 'required|numeric',
+            'role_slug' => 'required|string',
         ];
     }
 

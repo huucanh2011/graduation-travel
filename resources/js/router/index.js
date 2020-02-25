@@ -1,8 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import { sync } from 'vuex-router-sync'
 import routes from "./routes";
 import store from "@/store";
-import { vp } from "@/helpers/tools";
+import globalMiddleware from "./middleware/global-middleware";
+// import { vp } from "@/helpers/tools";
 // import "./middlewares/auth";
 // import "./middlewares/guest";
 
@@ -14,44 +16,47 @@ const router = new VueRouter({
   routes
 });
 
-router.beforeEach(async (to, from, next) => {
-  let token = store.state.auth.token;
-  let user = store.state.auth.user;
+sync(store, router);
+globalMiddleware(router);
 
-  try {
-    !user && token && (await store.dispatch("auth/me"));
-  } catch (e) {
-    console.error(e);
-  }
+// router.beforeEach(async (to, from, next) => {
+//   let token = store.state.auth.token;
+//   let user = store.state.auth.user;
 
-  next();
-});
+//   try {
+//     !user && token && (await store.dispatch("auth/me"));
+//   } catch (e) {
+//     console.error(e);
+//   }
 
-router.beforeEach((to, from, next) => {
-  let meta = to.matched.some(record => record.meta.auth);
-  let user = store.state.auth.user;
+//   next();
+// });
 
-  if (meta && !user) {
-    next({ name: "login" });
-    vp.$message.warning("This page requires authentication");
-  } else {
-    next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   let meta = to.matched.some(record => record.meta.auth);
+//   let user = store.state.auth.user;
 
-router.beforeEach((to, from, next) => {
-  let meta = to.matched.some(record => record.meta.guest);
-  let user = store.state.auth.user;
+//   if (meta && !user) {
+//     next({ name: "login" });
+//     vp.$message.warning("This page requires authentication");
+//   } else {
+//     next();
+//   }
+// });
 
-  if (meta && user) {
-    if (from.fullPath) {
-      next(false);
-    } else {
-      next({ name: "home" });
-    }
-  } else {
-    next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   let meta = to.matched.some(record => record.meta.guest);
+//   let user = store.state.auth.user;
+
+//   if (meta && user) {
+//     if (from.fullPath) {
+//       next(false);
+//     } else {
+//       next({ name: "home" });
+//     }
+//   } else {
+//     next();
+//   }
+// });
 
 export default router;

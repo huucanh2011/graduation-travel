@@ -16,8 +16,8 @@ class TourRatingResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'rating_scores' => $this->rating_scores,
-            'rating_content' => $this->rating_content,
+            'scores' => $this->scores,
+            'content' => $this->content,
             'is_active' => (bool) $this->is_active,
             'author' => $this->user->name,
             'tour' => $this->tour->tour_name,

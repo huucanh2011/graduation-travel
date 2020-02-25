@@ -2,9 +2,13 @@
 
 namespace App;
 
+use App\Models\Role;
+use App\Models\Tour;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\TourOrder;
+use App\Models\TourRating;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
@@ -12,7 +16,7 @@ class User extends Authenticatable implements JWTSubject
     use Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'phone_number', 'address', 'is_active', 'role_id'
+        'name', 'email', 'password', 'phone_number', 'address', 'is_active', 'role_slug'
     ];
 
     protected $hidden = [
@@ -36,7 +40,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function role()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'role_slug', 'slug');
     }
 
     public function tours()

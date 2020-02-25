@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -14,10 +15,11 @@ class CreateToursTable extends Migration
     public function up()
     {
         Schema::create('tours', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('tour_name');
             $table->string('slug');
-            $table->string('image_cover')->nullable();
+            $table->string('image');
+            $table->jsonb('gallery')->nullable();
             $table->text('description');
             $table->string('from_place');
             $table->string('to_place');
@@ -29,8 +31,8 @@ class CreateToursTable extends Migration
             $table->double('price_baby', 10, 2);
             $table->text('note')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->bigInteger('tourcate_id')->unsigned();
-            $table->bigInteger('user_id')->unsigned();
+            $table->integer('tourcate_id');
+            $table->integer('user_id');
             $table->timestamps();
             
             $table->foreign('tourcate_id')->references('id')->on('tour_categories')->onDelete('cascade');

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Slide;
+use App\Models\Slide;
 use Illuminate\Http\Request;
 use App\Http\Resources\SlideResource;
 use App\Http\Controllers\Api\BaseController;

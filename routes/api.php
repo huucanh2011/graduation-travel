@@ -33,7 +33,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('tours.images', 'TourImageController')->except(['update', 'show']);
 
         Route::get('permissions', 'PermissionController@index');
-        Route::put('permissions/{id}', 'PermissionController@update');
+        Route::put('permissions/{user}', 'PermissionController@update');
 
         Route::get('get-roles', 'RoleController@getRoles');
 

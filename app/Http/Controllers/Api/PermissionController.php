@@ -27,24 +27,27 @@ class PermissionController extends BaseController
             'name',
             'email',
         );
+        $pageSize = request()->pageSize ? (int) request()->pageSize : 5;
 
         return PermissionResource::collection(
-            querySearch(User::class, request()->q, $array, $columnSearch, 10)
+            querySearch(User::class, request()->q, $array, $columnSearch, $pageSize)
         );
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        $user = $this->user->findOrFail($id);
+        if (!is_null($user)) {
+            if (!is_null($request->is_active)) {
+                $user->update($request->only('is_active'));
+            }
 
-        if (!is_null($request->is_active)) {
-            $user->update($request->only('is_active'));
+            if (!is_null($request->role_slug)) {
+                $user->update($request->only('role_slug'));
+            }
+
+            return $this->respondData(new PermissionResource($user), Response::HTTP_ACCEPTED);
+        } else {
+            return $this->respondError('User not found');
         }
-
-        if (!is_null($request->role_id)) {
-            $user->update($request->only('role_id'));
-        }
-
-        return $this->respondData(new PermissionResource($user), Response::HTTP_ACCEPTED);
     }
 }

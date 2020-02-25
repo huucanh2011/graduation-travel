@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -14,7 +15,7 @@ class CreateTourOrdersTable extends Migration
     public function up()
     {
         Schema::create('tour_orders', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('customer_name');
             $table->string('customer_email');
             $table->string('customer_phone_number');
@@ -27,9 +28,9 @@ class CreateTourOrdersTable extends Migration
             $table->tinyInteger('status');
             $table->string('reason_cancel')->nullable();
             $table->boolean('paid')->default(false);
-            $table->bigInteger('payment_id')->unsigned();
-            $table->bigInteger('tourdepart_id')->unsigned();
-            $table->bigInteger('user_id')->unsigned();
+            $table->integer('payment_id');
+            $table->integer('tourdepart_id');
+            $table->integer('user_id');
             $table->timestamps();
 
             $table->foreign('payment_id')->references('id')->on('payments')->onDelete('cascade');

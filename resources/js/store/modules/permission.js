@@ -1,4 +1,4 @@
-import { getPermissions, getRoles, updatePermission } from "@/api/Permission";
+import { getPermissions, updatePermission, getRoles } from "@/api/Permission";
 import { vp } from "@/helpers/tools";
 
 const state = {
@@ -23,17 +23,11 @@ const actions = {
   async fetchPermissions({ commit }, payload) {
     let url = "permissions";
 
-    if (payload.page) {
-      url += `?page=${payload.page}`;
-    }
-
-    if (payload.q) {
-      url += `&q=${payload.q}`;
-    }
-
-    if (payload.sortBy && payload.orderBy) {
+    if (payload.page) url += `?page=${payload.page}`;
+    if (payload.pageSize) url += `&pageSize=${payload.pageSize}`;
+    if (payload.q) url += `&q=${payload.q}`;
+    if (payload.sortBy && payload.orderBy)
       url += `&sortBy=${payload.sortBy}&orderBy=${payload.orderBy}`;
-    }
 
     return new Promise((reslove, reject) => {
       commit("setLoading", true);

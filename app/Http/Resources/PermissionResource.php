@@ -21,7 +21,7 @@ class PermissionResource extends JsonResource
             'avatar' => $this->avatar,
             'is_active' => (bool) $this->is_active,
             'role' => $this->role->role_name,
-            'role_id' => $this->role_id,
+            'role_slug' => $this->role_slug,
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
         ];

@@ -3,7 +3,7 @@ export function register(payload) {
     name: payload.name,
     email: payload.email,
     password: payload.password,
-    role_id: payload.role_id
+    role_slug: payload.role_slug
   });
 }
 

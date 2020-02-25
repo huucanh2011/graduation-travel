@@ -45,7 +45,7 @@ class AuthController extends BaseController
         $credentials = ['email' => $request->email, 'password' => $request->password];
 
         if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['message' => 'Wrong email or password'], Response::HTTP_UNAUTHORIZED);
+            return $this->respondError('Email or password incorect', Response::HTTP_UNAUTHORIZED);
         }
 
         return $this->respondWithToken($token);
@@ -53,8 +53,9 @@ class AuthController extends BaseController
 
     public function register(RegisterRequest $request)
     {
-        if ($request->role_id == 2) {
+        if ($request->role_slug === 'partner') {
             $request['is_active'] = false;
+
             $user = User::create($request->all());
         } else {
             $user = User::create($request->all());

@@ -9,7 +9,6 @@ use App\Mail\ResetPasswordMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Api\BaseController;
-use Symfony\Component\HttpFoundation\Response;
 
 class ForgotPasswordController extends BaseController
 {

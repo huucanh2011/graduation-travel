@@ -62,7 +62,7 @@
         <a-form-item has-feedback>
           <a-select
             v-decorator="[
-              'role_id',
+              'role_slug',
               {
                 rules: [{ required: true, message: 'Vui lòng chọn quyền' }]
               }
@@ -70,8 +70,8 @@
             size="large"
             placeholder="Chọn..."
           >
-            <a-select-option value="3">Người dùng</a-select-option>
-            <a-select-option value="2">Đối tác</a-select-option>
+            <a-select-option value="user">Người dùng</a-select-option>
+            <a-select-option value="partner">Đối tác</a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item class="mb-1">

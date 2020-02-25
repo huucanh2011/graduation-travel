@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Feedback;
+
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 use App\Http\Requests\FeedbackRequest;
 use App\Http\Resources\FeedbackResource;

@@ -1,20 +1,5 @@
 <template>
-  <a-card title="Danh sách tài khoản" :bordered="false">
-    <div slot="extra">
-      <a-button type="primary" icon="plus" @click="onOpen">Thêm</a-button>
-      <a-button
-        icon="sync"
-        :style="{ marginLeft: '8px' }"
-        @click="onReset"
-      ></a-button>
-      <a-input-search
-        placeholder="Tìm kiếm..."
-        v-model="keyword"
-        @search="onSearch"
-        style="margin-left: 8px; width: 250px;"
-      />
-    </div>
-
+  <card-table :title="title" :add-button="true" @reset="reset" @open="open">
     <a-table
       :columns="columns"
       :loading="loading"
@@ -61,7 +46,7 @@
         </a-popconfirm>
       </template>
     </a-table>
-  </a-card>
+  </card-table>
 </template>
 
 <script>
@@ -72,9 +57,12 @@
     cleanAccents
   } from "@/helpers/tools";
   import { mapActions, mapGetters } from "vuex";
+  import CardTable from "@/components/card/CardTable";
   export default {
+    components: { CardTable },
     data() {
       return {
+        title: "List of user",
         pagination: {},
         keyword: null
       };
@@ -134,7 +122,7 @@
       retrieveUsers() {
         this.fetch();
       },
-      onOpen() {
+      open() {
         eventBus.$emit("openDrawerUser", true);
       },
       onUpdate(userId) {
@@ -157,14 +145,13 @@
       },
       onClickActive(checked, e) {
         const userId = +e.target.name.replace("u__", "");
-        const isActive = checked;
         const user = {
           id: userId,
-          values: { is_active: isActive }
+          values: { is_active: checked }
         };
         this.updateActiveUser(user);
       },
-      onReset() {
+      reset() {
         this.retrieveUsers();
         this.keyword = null;
       },

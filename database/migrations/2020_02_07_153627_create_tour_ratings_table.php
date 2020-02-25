@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -14,12 +15,12 @@ class CreateTourRatingsTable extends Migration
     public function up()
     {
         Schema::create('tour_ratings', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->tinyInteger('rating_scores');
-            $table->text('rating_content');
+            $table->increments('id');
+            $table->tinyInteger('scores');
+            $table->text('content');
             $table->boolean('is_active')->default(true);
-            $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('tour_id')->unsigned();
+            $table->integer('user_id');
+            $table->integer('tour_id');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

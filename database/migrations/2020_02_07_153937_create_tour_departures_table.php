@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -14,11 +15,11 @@ class CreateTourDeparturesTable extends Migration
     public function up()
     {
         Schema::create('tour_departures', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('tour_code');
             $table->date('date_departure');
             $table->tinyInteger('available_persons');
-            $table->bigInteger('tour_id')->unsigned();
+            $table->integer('tour_id');
             $table->timestamps();
 
             $table->foreign('tour_id')->references('id')->on('tours')->onDelete('cascade');

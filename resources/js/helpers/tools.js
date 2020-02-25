@@ -10,12 +10,15 @@ export const isNotNull = v => {
 };
 
 export const tagColor = v => {
-  let color = "cyan";
+  let color;
   if (v === "admin") {
     color = "orange";
   }
   if (v === "partner") {
     color = "green";
+  }
+  if (v === "user") {
+    color = "cyan";
   }
   return color;
 };
@@ -45,9 +48,10 @@ export const cleanAccents = str => {
   // Combining Diacritical Marks
   str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ""); // huyền, sắc, hỏi, ngã, nặng
   str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // mũ â (ê), mũ ă, mũ ơ (ư)
-  // str = str.replace(" ", "-");
-  // str = str.replace("%20", "-");
-  str = str.trim().toLowerCase();
+  str = str.replace(/ /g, " ");
+  str = str.replace(/%20/g, " ");
+  // str = str.trim().toLowerCase();
+  str = str.toLowerCase();
   return str;
 };
 
@@ -67,5 +71,20 @@ export const preview_image = file => {
 };
 
 export const publicPath = () => {
-  return window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/';
+  return (
+    window.location.protocol +
+    "//" +
+    window.location.hostname +
+    ":" +
+    window.location.port +
+    "/"
+  );
+};
+
+export const convertOrderBy = orderBy => {
+  return orderBy === "ascend"
+    ? "asc"
+    : orderBy === "descend"
+    ? "desc"
+    : undefined;
 };

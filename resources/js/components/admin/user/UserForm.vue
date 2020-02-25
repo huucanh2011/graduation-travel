@@ -142,7 +142,7 @@
                 v-for="role in roles"
                 :key="role.id"
                 :value="role.id"
-                >{{ role.role_name }}</a-select-option
+                >{{ role.name }}</a-select-option
               >
             </a-select>
           </a-form-item>

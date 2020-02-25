@@ -5,7 +5,7 @@ export default [
   {
     path: "/admin/",
     component: () => import("@/layouts/AdminLayout"),
-    meta: { auth: true },
+    meta: { admin: true },
     children: [...admin]
   },
   {
