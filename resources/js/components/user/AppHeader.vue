@@ -5,11 +5,7 @@
       <a-input class="search" placeholder="Tìm kiếm" @search="onSearch">
         <a-icon slot="prefix" type="search" style="color: rgba(0,0,0,.25)" />
       </a-input>
-      <a-menu
-        mode="horizontal"
-        :defaultSelectedKeys="['1']"
-        :style="{ lineHeight: '64px' }"
-      >
+      <a-menu mode="horizontal" :defaultSelectedKeys="['1']" :style="{ lineHeight: '64px' }">
         <a-menu-item key="1">
           <router-link :to="{ name: 'home' }">Trang chủ</router-link>
         </a-menu-item>

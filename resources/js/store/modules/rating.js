@@ -1,9 +1,4 @@
-import {
-  getRatings,
-  createRating,
-  updateRating,
-  deleteRating
-} from "@/api/Rating";
+import { getRatings, createRating, updateRating, deleteRating } from "@/api/Rating";
 import { vp } from "@/helpers/tools";
 
 const state = {

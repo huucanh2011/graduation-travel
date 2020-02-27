@@ -26,8 +26,7 @@ const actions = {
     if (payload.page) url += `?page=${payload.page}`;
     if (payload.pageSize) url += `&pageSize=${payload.pageSize}`;
     if (payload.q) url += `&q=${payload.q}`;
-    if (payload.sortBy && payload.orderBy)
-      url += `&sortBy=${payload.sortBy}&orderBy=${payload.orderBy}`;
+    if (payload.sortBy && payload.orderBy) url += `&sortBy=${payload.sortBy}&orderBy=${payload.orderBy}`;
 
     return new Promise((reslove, reject) => {
       commit("setLoading", true);
@@ -60,10 +59,7 @@ const actions = {
 
   async updatePermission({ commit }, payload) {
     try {
-      const { data, status } = await updatePermission(
-        payload.id,
-        payload.values
-      );
+      const { data, status } = await updatePermission(payload.id, payload.values);
       if (data && status === 202) {
         commit("updatePermission", data);
         vp.$notify.success("Success", "Cập nhật thành công");

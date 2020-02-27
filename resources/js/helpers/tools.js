@@ -71,20 +71,9 @@ export const preview_image = file => {
 };
 
 export const publicPath = () => {
-  return (
-    window.location.protocol +
-    "//" +
-    window.location.hostname +
-    ":" +
-    window.location.port +
-    "/"
-  );
+  return window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/";
 };
 
 export const convertOrderBy = orderBy => {
-  return orderBy === "ascend"
-    ? "asc"
-    : orderBy === "descend"
-    ? "desc"
-    : undefined;
+  return orderBy === "ascend" ? "asc" : orderBy === "descend" ? "desc" : undefined;
 };

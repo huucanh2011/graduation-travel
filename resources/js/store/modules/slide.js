@@ -1,10 +1,4 @@
-import {
-  getSlides,
-  createSlide,
-  updateSlide,
-  updateActiveSlide,
-  deleteSlide
-} from "@/api/Slide";
+import { getSlides, createSlide, updateSlide, updateActiveSlide, deleteSlide } from "@/api/Slide";
 import { vp } from "@/helpers/tools";
 
 const state = {
@@ -94,10 +88,7 @@ const actions = {
 
   async updateActiveSlide({ commit }, payload) {
     try {
-      const { data, status } = await updateActiveSlide(
-        payload.id,
-        payload.values
-      );
+      const { data, status } = await updateActiveSlide(payload.id, payload.values);
       if (data && status === 202) {
         commit("updateSlide", data);
         vp.$notify.success("Success", "Cập nhật thành công");

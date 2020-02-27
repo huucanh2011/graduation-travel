@@ -1,12 +1,6 @@
 <template>
   <div>
-    <card-table
-      :title="title"
-      :add-button="true"
-      @open="open"
-      @reset="reset"
-      @search="search"
-    >
+    <card-table :title="title" :add-button="true" @open="open" @reset="reset" @search="search">
       <a-table
         :columns="columns"
         :loading="loading"
@@ -25,11 +19,7 @@
             <a-icon type="edit"></a-icon>
           </a-button>
           <a-divider type="vertical" />
-          <a-popconfirm
-            v-if="roles.length"
-            title="Bạn có chắc chắn?"
-            @confirm="onDelete(record.id)"
-          >
+          <a-popconfirm v-if="roles.length" title="Bạn có chắc chắn?" @confirm="onDelete(record.id)">
             <a-button type="dashed" size="small">
               <a-icon type="delete"></a-icon>
             </a-button>
@@ -45,12 +35,7 @@
       />
     </card-table>
 
-    <drawer-table
-      :visible="visible"
-      :edit-mode="editMode"
-      @saveForm="saveForm"
-      @closeForm="closeForm"
-    >
+    <drawer-table :visible="visible" :edit-mode="editMode" @saveForm="saveForm" @closeForm="closeForm">
       <a-form :form="form" layout="vertical" @submit.prevent="saveForm">
         <a-form-item label="Tên quyền">
           <a-input
@@ -72,12 +57,7 @@
 </template>
 
 <script>
-  import {
-    colorActive,
-    tagColor,
-    cleanAccents,
-    convertOrderBy
-  } from "@/helpers/tools";
+  import { colorActive, tagColor, cleanAccents, convertOrderBy } from "@/helpers/tools";
   import { mapActions, mapGetters } from "vuex";
   import CardTable from "@/components/card/CardTable.vue";
   import PaginationTable from "@/components/pagination/PaginationTable";
@@ -143,12 +123,7 @@
       this.initForm();
     },
     methods: {
-      ...mapActions("role", [
-        "fetchRoles",
-        "createRole",
-        "updateRole",
-        "deleteRole"
-      ]),
+      ...mapActions("role", ["fetchRoles", "createRole", "updateRole", "deleteRole"]),
       async fetchData(params = {}) {
         const pagination = { ...this.pagination };
         const { data, config } = await this.fetchRoles(params);
@@ -161,23 +136,17 @@
       onTableChange(pagination, filters, sorter) {
         const pager = { ...this.pagination };
         const orderBy = convertOrderBy(sorter.order);
-        const params = this.setParams(
-          pager.current,
-          pager.pageSize,
-          sorter.field,
-          orderBy,
-          this.q
-        );
+        const params = this.setParams(pager.current, pager.pageSize, sorter.field, orderBy, this.q);
         this.fetchData(params);
         this.sorter = sorter;
       },
       onShowSizeChange({ current, pageSize }) {
-        this.onChangePagination(current, pageSize);
+        this.handleChangePagination(current, pageSize);
       },
       onChange({ page, pageSize }) {
-        this.onChangePagination(page, pageSize);
+        this.handleChangePagination(page, pageSize);
       },
-      onChangePagination(page, pageSize) {
+      handleChangePagination(page, pageSize) {
         const sorter = { ...this.sorter };
         const q = this.q;
         const sortBy = sorter.field;
@@ -210,21 +179,15 @@
         this.pagination.current = 1;
         this.q = "";
       },
-      onClickActive(checked, e) {
-        const userId = +e.target.name.replace("p__", "");
-        const permission = {
-          id: userId,
-          values: { is_active: checked }
-        };
+      onClickActive(is_active, e) {
+        const id = +e.target.name.replace("p__", "");
+        const permission = { id, values: { is_active } };
         this.updatePermission(permission);
       },
       onChangeRole(e) {
-        const roleSlug = e.target.value;
-        const userId = +e.target.name.replace("p__", "");
-        const permission = {
-          id: userId,
-          values: { role_slug: roleSlug }
-        };
+        const role_slug = e.target.value;
+        const id = +e.target.name.replace("p__", "");
+        const permission = { id, values: { role_slug } };
         this.updatePermission(permission);
       },
       tagColor(value) {

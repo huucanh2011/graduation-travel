@@ -2,17 +2,8 @@
   <a-card title="Danh sách thể loại tour" :bordered="false">
     <div slot="extra">
       <a-button type="primary" icon="plus" @click="onOpen">Thêm</a-button>
-      <a-button
-        icon="sync"
-        :style="{ marginLeft: '8px' }"
-        @click="onReset"
-      ></a-button>
-      <a-input-search
-        placeholder="Tìm kiếm..."
-        v-model="keyword"
-        @search="onSearch"
-        style="margin-left: 8px; width: 250px;"
-      />
+      <a-button icon="sync" :style="{ marginLeft: '8px' }" @click="onReset"></a-button>
+      <a-input-search placeholder="Tìm kiếm..." v-model="keyword" @search="onSearch" style="margin-left: 8px; width: 250px;" />
     </div>
 
     <a-table
@@ -31,11 +22,7 @@
           <a-icon type="edit"></a-icon>
         </a-button>
         <a-divider type="vertical" />
-        <a-popconfirm
-          v-if="categories.length"
-          title="Bạn có chắc chắn?"
-          @confirm="onDelete(record.id)"
-        >
+        <a-popconfirm v-if="categories.length" title="Bạn có chắc chắn?" @confirm="onDelete(record.id)">
           <a-button type="dashed" size="small">
             <a-icon type="delete"></a-icon>
           </a-button>
@@ -117,13 +104,7 @@
       },
       onUpdate(categoryId) {
         const categoryUpdate = this.getCategoryById(categoryId);
-        eventBus.$emit(
-          "setFormCategory",
-          categoryUpdate,
-          categoryId,
-          true,
-          true
-        );
+        eventBus.$emit("setFormCategory", categoryUpdate, categoryId, true, true);
       },
       onDelete(categoryId) {
         this.deleteCategory(categoryId);
@@ -159,12 +140,7 @@
         let params = {
           page: pagination.current,
           sortBy: sorter.field,
-          orderBy:
-            sorter.order === "ascend"
-              ? "asc"
-              : sorter.order === "descend"
-              ? "desc"
-              : undefined,
+          orderBy: sorter.order === "ascend" ? "asc" : sorter.order === "descend" ? "desc" : undefined,
           keyword: this.keyword
         };
         this.fetch(params);

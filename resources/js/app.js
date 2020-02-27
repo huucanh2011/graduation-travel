@@ -11,14 +11,9 @@ import "./plugins/vue-progressbar";
 // import "./plugins/vue-cropper";
 
 //helpers
-import { setHeader } from "./helpers/set-header";
 import "./helpers/notifications";
-import {
-  dateFilter,
-  statusFilter,
-  upperCaseFilter,
-  tagColorFilter
-} from "./helpers/filters";
+import { setHeader } from "./helpers/set-header";
+import { dateFilter, statusFilter, upperCaseFilter, tagColorFilter } from "./helpers/filters";
 
 Vue.filter("date", dateFilter);
 Vue.filter("status", statusFilter);
@@ -36,11 +31,7 @@ Vue.prototype.$auth = {
   }
 };
 
-Vue.prototype.$actionWithLoading = async function(
-  action,
-  loadingVariable = "loading",
-  ...arg
-) {
+Vue.prototype.$actionWithLoading = async function(action, loadingVariable = "loading", ...arg) {
   this[loadingVariable] = true;
   try {
     await action(...arg);

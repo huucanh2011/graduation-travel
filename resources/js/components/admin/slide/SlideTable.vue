@@ -2,17 +2,8 @@
   <a-card title="Danh sách slide" :bordered="false">
     <div slot="extra">
       <a-button type="primary" icon="plus" @click="onOpen">Thêm</a-button>
-      <a-button
-        icon="sync"
-        :style="{ marginLeft: '8px' }"
-        @click="resetTable"
-      ></a-button>
-      <a-input-search
-        placeholder="Tìm kiếm..."
-        v-model="q"
-        @search="onSearch"
-        style="margin-left: 8px; width: 250px;"
-      />
+      <a-button icon="sync" :style="{ marginLeft: '8px' }" @click="resetTable"></a-button>
+      <a-input-search placeholder="Tìm kiếm..." v-model="q" @search="onSearch" style="margin-left: 8px; width: 250px;" />
     </div>
 
     <a-table
@@ -23,13 +14,7 @@
       :pagination="pagination"
       @change="onChangeTable"
     >
-      <img
-        slot="image"
-        slot-scope="record"
-        :src="record.image"
-        :alt="record.title"
-        width="100%"
-      />
+      <img slot="image" slot-scope="record" :src="record.image" :alt="record.title" width="100%" />
       <a slot="link" slot-scope="record" :href="record">Chuyển đến link</a>
       <a-switch
         slot="active"
@@ -47,11 +32,7 @@
           <a-icon type="edit"></a-icon>
         </a-button>
         <a-divider type="vertical" />
-        <a-popconfirm
-          v-if="slides.length"
-          title="Bạn có chắc chắn?"
-          @confirm="onDelete(record.id)"
-        >
+        <a-popconfirm v-if="slides.length" title="Bạn có chắc chắn?" @confirm="onDelete(record.id)">
           <a-button type="dashed" size="small">
             <a-icon type="delete"></a-icon>
           </a-button>
@@ -120,11 +101,7 @@
       eventBus.$off("retrieveSlides", this.retrieveSlides);
     },
     methods: {
-      ...mapActions("slide", [
-        "fetchSlides",
-        "updateActiveSlide",
-        "deleteSlide"
-      ]),
+      ...mapActions("slide", ["fetchSlides", "updateActiveSlide", "deleteSlide"]),
       async fetchData(params = {}) {
         const pagination = { ...this.pagination };
         const { data, config } = await this.fetchSlides(params);
@@ -141,12 +118,7 @@
         let params = {
           page: pagination.current,
           sortBy: sorter.field,
-          orderBy:
-            sorter.order === "ascend"
-              ? "asc"
-              : sorter.order === "descend"
-              ? "desc"
-              : undefined,
+          orderBy: sorter.order === "ascend" ? "asc" : sorter.order === "descend" ? "desc" : undefined,
           q: this.q
         };
         this.fetchData(params);

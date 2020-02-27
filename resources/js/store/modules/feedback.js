@@ -1,9 +1,4 @@
-import {
-  getFeedbacks,
-  createFeedback,
-  updateFeedback,
-  deleteFeedback
-} from "@/api/Feedback";
+import { getFeedbacks, createFeedback, updateFeedback, deleteFeedback } from "@/api/Feedback";
 import { vp } from "@/helpers/tools";
 
 const state = {

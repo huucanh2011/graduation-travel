@@ -18,12 +18,12 @@
         <div id="app"></div>
         
         {{-- @if (app()->isLocal()) --}}
-            <script src="{{ mix('js/app.js') }}"></script>
+            <script src="{{ mix('js/app.js') }}" defer></script>
         {{-- @else --}}
             {{-- https://laravel.com/docs/5.8/mix#working-with-scripts --}}
             {{-- <script src="{{ mix('js/app.js') }}" defer></script>
-            <script src="{{ mix('js/manifest.js') }}"></script>
-            <script src="{{ mix('js/vendor.js') }}"></script>
+            <script src="{{ mix('js/manifest.js') }}" defer></script>
+            <script src="{{ mix('js/vendor.js') }}" defer></script>
         @endif --}}
         {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script> --}}
     </body>

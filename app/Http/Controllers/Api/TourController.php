@@ -36,9 +36,10 @@ class TourController extends BaseController
             'price_children',
             'price_baby'
         );
+        $pageSize = request()->pageSize ? (int) request()->pageSize : 5;
 
         return TourResource::collection(
-            querySearchWith(Tour::with(['tourCategory', 'user']), request()->q, $array, $columnSearch, 10)
+            querySearchWith(Tour::with(['tourCategory', 'user']), request()->q, $array, $columnSearch, $pageSize)
         );
     }
 
@@ -47,45 +48,26 @@ class TourController extends BaseController
         $request['slug'] = Str::slug($request->tour_name);
         $tour = auth()->user()->tours()->create($request->all());
 
-        // $this->handleUploadImage($tour, $request);
-
         return $this->respondData(new TourResource($tour), Response::HTTP_CREATED);
     }
 
-    public function show($id)
+    public function show(Tour $tour)
     {
-        return $this->respondData(
-            new TourResource($this->tour->with(['tourCategory', 'user'])->findOrFail($id))
-        );
+        return $this->respondData(new TourResource($tour->with(['tourCategory', 'user'])));
     }
 
-    public function update(TourRequest $request, $id)
+    public function update(TourRequest $request, Tour $tour)
     {
         $request['slug'] = Str::slug($request->tour_name);
-        $tour = $this->tour->findOrFail($id);
         $tour->update($request->all());
-
-        // $this->handleUploadImage($tour, $request);
 
         return $this->respondData(new TourResource($tour), Response::HTTP_ACCEPTED);
     }
 
-    public function destroy($id)
+    public function destroy(Tour $tour)
     {
-        $this->tour->findOrFail($id)->delete();
+        $tour->delete();
 
         return $this->respondSuccess(config('message.delete_success'));
     }
-
-    // private function handleUploadImage($slide, $request)
-    // {
-    //     if ($request->has('image')) {
-    //         $slide->update([
-    //             'image' => $request->image->store('uploads', 'public'),
-    //         ]);
-
-    //         $image = Image::make(public_path('storage/' . $slide->image))->fit(600, 400);
-    //         $image->save();
-    //     }
-    // }
 }

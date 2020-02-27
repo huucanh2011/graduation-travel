@@ -1,14 +1,8 @@
 <template>
   <a-layout-header class="layout-header">
-    <a-icon
-      class="trigger"
-      :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-      @click="handleCollapsed"
-    />
+    <a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="handleCollapsed" />
 
-    <div
-      :style="{ display: 'flex', flexDirection: 'row', alignItems: 'center' }"
-    >
+    <div :style="{ display: 'flex', flexDirection: 'row', alignItems: 'center' }">
       <router-link :to="{ name: 'home' }" :style="{ color: '#595959' }">
         <a-icon type="home" :style="{ fontSize: '18px' }" />
       </router-link>
@@ -28,11 +22,7 @@
 
       <a-dropdown placement="bottomRight" :trigger="['click']">
         <div :style="{ cursor: 'pointer' }">
-          <a-avatar
-            :style="{ backgroundColor: '#87d068' }"
-            size="small"
-            icon="user"
-          />
+          <a-avatar :style="{ backgroundColor: '#87d068' }" size="small" icon="user" />
           <span>{{ user.name }}</span>
         </div>
 
@@ -51,9 +41,7 @@
           </a-menu-item>
           <a-menu-divider />
           <a-menu-item>
-            <a href="#" @click="logout">
-              <a-icon type="logout" :style="{ marginRight: '5px' }" />Đăng xuất
-            </a>
+            <a href="#" @click="logout"> <a-icon type="logout" :style="{ marginRight: '5px' }" />Đăng xuất </a>
           </a-menu-item>
         </a-menu>
       </a-dropdown>

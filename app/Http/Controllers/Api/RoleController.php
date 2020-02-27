@@ -41,30 +41,27 @@ class RoleController extends BaseController
     public function store(CreateRoleRequest $request)
     {
         $request['slug'] = Str::slug($request->role_name);
-        $role = $this->role->create($request->all());
+        $role = Role::create($request->all());
 
         return $this->respondData(new RoleResource($role), Response::HTTP_CREATED);
     }
 
-    public function show($id)
+    public function show(Role $role)
     {
-        return $this->respondData(
-            new RoleResource($this->role->findOrFail($id))
-        );
+        return $this->respondData(new RoleResource($role));
     }
 
-    public function update(UpdateRoleRequest $request, $id)
+    public function update(UpdateRoleRequest $request, Role $role)
     {
-        $role = $this->role->findOrFail($id);
         $request['slug'] = Str::slug($request->role_name);
         $role->update($request->all());
 
         return $this->respondData(new RoleResource($role), Response::HTTP_ACCEPTED);
     }
 
-    public function destroy($id)
+    public function destroy(Role $role)
     {
-        $role = $this->role->findOrFail($id)->delete();
+        $role->delete();
 
         return $this->respondSuccess(config('message.delete_success'));
     }

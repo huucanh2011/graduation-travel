@@ -29,45 +29,42 @@ class SlideController extends BaseController
             'title',
             'description'
         );
+        $pageSize = request()->pageSize ? (int) request()->pageSize : 5;
 
         return SlideResource::collection(
-            querySearchWith(Slide::latest('is_active', 'created_at'), request()->q, $array, $columnSearch, 10)
+            querySearchWith(Slide::latest('is_active', 'created_at'), request()->q, $array, $columnSearch, $pageSize)
         );
     }
 
     public function store(CreateSlideRequest $request)
     {
-        $slide = $this->slide->create($request->all());
+        $slide = Slide::create($request->all());
 
         return $this->respondData(new SlideResource($slide), Response::HTTP_CREATED);
     }
 
-    public function show($id)
+    public function show(Slide $slide)
     {
-        return $this->respondData(
-            new SlideResource($this->slide->findOrFail($id))
-        );
+        return $this->respondData(new SlideResource($slide));
     }
 
-    public function update(UpdateSlideRequest $request, $id)
+    public function update(UpdateSlideRequest $request, Slide $slide)
     {
-        $slide = $this->slide->findOrFail($id);
         $slide->update($request->all());
 
         return $this->respondData(new SlideResource($slide), Response::HTTP_ACCEPTED);
     }
 
-    public function updateActive(Request $request, $id)
+    public function updateActive(Request $request, Slide $slide)
     {
-        $slide = $this->slide->findOrFail($id);
         $slide->update($request->only('is_active'));
 
         return $this->respondData(new SlideResource($slide), Response::HTTP_ACCEPTED);
     }
 
-    public function destroy($id)
+    public function destroy(Slide $slide)
     {
-        $this->slide->findOrFail($id)->delete();
+        $slide->delete();
 
         return $this->respondSuccess(config('message.delete_success'));
     }

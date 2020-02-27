@@ -24,13 +24,7 @@
           </a-input>
         </a-form-item>
         <a-form-item>
-          <a-button
-            size="large"
-            type="primary"
-            html-type="submit"
-            :loading="loading"
-            block
-          >
+          <a-button size="large" type="primary" html-type="submit" :loading="loading" block>
             Gửi
           </a-button>
         </a-form-item>
@@ -73,9 +67,7 @@
     align-items: center;
     height: 100vh;
     overflow: hidden;
-    background: #f0f2f5
-      url("https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg")
-      no-repeat center 110px;
+    background: #f0f2f5 url("https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg") no-repeat center 110px;
     background-size: 100%;
     .login {
       width: 410px;

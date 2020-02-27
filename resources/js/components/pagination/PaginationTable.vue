@@ -6,7 +6,7 @@
       @change="onChange"
       :current="current"
       :pageSize="pageSize"
-      :pageSizeOptions="['5','10','15','20']"
+      :pageSizeOptions="['5', '10', '15', '20']"
       :total="total"
       :showTotal="(total, range) => `${range[0]}-${range[1]} of ${total} items`"
     />
@@ -17,7 +17,7 @@
     props: {
       total: {
         type: Number,
-        required: true,
+        required: true
       },
       pageSize: {
         type: Number,
@@ -26,7 +26,7 @@
       current: {
         type: Number,
         required: true
-      },
+      }
     },
     methods: {
       onShowSizeChange(current, pageSize) {

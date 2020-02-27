@@ -1,13 +1,4 @@
-import {
-  register,
-  login,
-  logout,
-  refresh,
-  me,
-  forgotPassword,
-  resetPassword,
-  loginSocialAccount
-} from "@/api/Authentication";
+import { register, login, logout, refresh, me, forgotPassword, resetPassword, loginSocialAccount } from "@/api/Authentication";
 import { getToken, saveToken, destroyToken } from "@/helpers/jwt.service";
 import { setHeader } from "@/helpers/set-header";
 import { vp } from "@/helpers/tools";

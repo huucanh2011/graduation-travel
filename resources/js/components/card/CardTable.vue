@@ -7,12 +7,7 @@
       <a-button icon="sync" :style="{ margin: '0 8px' }" @click="reset">
         Reset
       </a-button>
-      <a-input-search
-        placeholder="Tìm kiếm..."
-        allowClear
-        @search="search"
-        :style="{ width: '250px' }"
-      />
+      <a-input-search placeholder="Tìm kiếm..." allowClear @search="search" :style="{ width: '250px' }" />
     </div>
     <slot></slot>
   </a-card>

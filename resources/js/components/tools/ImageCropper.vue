@@ -1,11 +1,5 @@
 <template>
-  <a-modal
-    title="Crop image"
-    :width="600"
-    :visible="visibleModal"
-    @ok="modalOk"
-    @cancel="modalCancel"
-  >
+  <a-modal title="Crop image" :width="600" :visible="visibleModal" @ok="modalOk" @cancel="modalCancel">
     <div :style="{ width: '552px', height: '300px' }">
       <VueCropper ref="cropper" v-bind="options" />
     </div>

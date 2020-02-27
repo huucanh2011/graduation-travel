@@ -75,13 +75,7 @@
           </a-select>
         </a-form-item>
         <a-form-item class="mb-1">
-          <a-button
-            size="large"
-            type="primary"
-            html-type="submit"
-            :loading="loading"
-            block
-          >
+          <a-button size="large" type="primary" html-type="submit" :loading="loading" block>
             Đăng ký
           </a-button>
         </a-form-item>
@@ -91,9 +85,7 @@
               <span>đăng nhập bằng</span>
             </a-col>
             <a-col>
-              <a-button class="btn-facebook" size="large" icon="facebook" block
-                >Facebook</a-button
-              >
+              <a-button class="btn-facebook" size="large" icon="facebook" block>Facebook</a-button>
             </a-col>
           </a-row>
         </a-form-item>
@@ -102,9 +94,7 @@
             Hoặc
             <router-link :to="{ name: 'login' }">đăng nhập</router-link>
           </span>
-          <router-link :to="{ name: 'forgotpassword' }"
-            >Quên mật khẩu?</router-link
-          >
+          <router-link :to="{ name: 'forgotpassword' }">Quên mật khẩu?</router-link>
         </div>
       </a-form>
     </a-card>
@@ -143,9 +133,7 @@
     align-items: center;
     height: 100vh;
     overflow: hidden;
-    background: #f0f2f5
-      url("https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg")
-      no-repeat center 110px;
+    background: #f0f2f5 url("https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg") no-repeat center 110px;
     background-size: 100%;
     .login {
       width: 410px;

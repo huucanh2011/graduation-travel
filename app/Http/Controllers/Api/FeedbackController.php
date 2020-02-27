@@ -21,8 +21,6 @@ class FeedbackController extends BaseController
 
     public function index()
     {
-        // return cleanAccents();
-
         $array = array(
             'sortBy' => request()->sortBy ?? 'created_at',
             'orderBy' => request()->orderBy ?? 'desc',
@@ -34,37 +32,35 @@ class FeedbackController extends BaseController
             'subject',
             'content',
         );
+        $pageSize = request()->pageSize ? (int) request()->pageSize : 5;
 
         return FeedbackResource::collection(
-            querySearch(Feedback::class, request()->q, $array, $columnSearch, 10)
+            querySearch(Feedback::class, request()->q, $array, $columnSearch, $pageSize)
         );
     }
 
     public function store(FeedbackRequest $request)
     {
-        $feedback = $this->feedback->create($request->all());
+        $feedback = Feedback::create($request->all());
 
         return $this->respondData(new FeedbackResource($feedback), Response::HTTP_CREATED);
     }
 
-    public function show($id)
+    public function show(Feedback $feedback)
     {
-        return $this->respondData(
-            new FeedbackResource($this->feedback->findOrFail($id))
-        );
+        return $this->respondData(new FeedbackResource($feedback));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Feedback $feedback)
     {
-        $feedback = $this->feedback->findOrFail($id);
         $feedback->update($request->only('seen'));
 
         return $this->respondData(new FeedbackResource($feedback), Response::HTTP_ACCEPTED);
     }
 
-    public function destroy($id)
+    public function destroy(Feedback $feedback)
     {
-        $this->feedback->findOrFail($id)->delete();
+        $feedback->delete();
 
         return $this->respondSuccess(config('message.delete_success'));
     }

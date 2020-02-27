@@ -1,9 +1,4 @@
-import {
-  getCategories,
-  createCategory,
-  updateCategory,
-  deleteCategory
-} from "@/api/Category";
+import { getCategories, createCategory, updateCategory, deleteCategory } from "@/api/Category";
 import { vp } from "@/helpers/tools";
 
 const state = {

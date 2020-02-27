@@ -23,17 +23,8 @@
         </a-switch>
       </template>
       <template slot="action" slot-scope="record">
-        <a-radio-group
-          :name="`p__${record.id}`"
-          :defaultValue="record.role_slug"
-          @change="onChangeRole"
-        >
-          <a-radio
-            v-for="role in roles"
-            :key="role.id"
-            :value="role.slug"
-            :style="{ margin: '0 4px' }"
-          >
+        <a-radio-group :name="`p__${record.id}`" :defaultValue="record.role_slug" @change="onChangeRole">
+          <a-radio v-for="role in roles" :key="role.id" :value="role.slug" :style="{ margin: '0 4px' }">
             <a-tag :color="tagColor(role.slug)">
               {{ role.slug }}
             </a-tag>
@@ -52,12 +43,7 @@
 </template>
 
 <script>
-  import {
-    colorActive,
-    tagColor,
-    cleanAccents,
-    convertOrderBy
-  } from "@/helpers/tools";
+  import { colorActive, tagColor, cleanAccents, convertOrderBy } from "@/helpers/tools";
   import { mapActions, mapGetters } from "vuex";
   import CardTable from "@/components/card/CardTable.vue";
   import PaginationTable from "@/components/pagination/PaginationTable";
@@ -120,11 +106,7 @@
       this.fetchRoles();
     },
     methods: {
-      ...mapActions("permission", [
-        "fetchPermissions",
-        "fetchRoles",
-        "updatePermission"
-      ]),
+      ...mapActions("permission", ["fetchPermissions", "fetchRoles", "updatePermission"]),
       async fetchData(params = {}) {
         const pagination = { ...this.pagination };
         const { data, config } = await this.fetchPermissions(params);
@@ -137,13 +119,7 @@
       onTableChange(pagination, filters, sorter) {
         const pager = { ...this.pagination };
         const orderBy = convertOrderBy(sorter.order);
-        const params = this.setParams(
-          pager.current,
-          pager.pageSize,
-          sorter.field,
-          orderBy,
-          this.q
-        );
+        const params = this.setParams(pager.current, pager.pageSize, sorter.field, orderBy, this.q);
         this.fetchData(params);
         this.sorter = sorter;
       },

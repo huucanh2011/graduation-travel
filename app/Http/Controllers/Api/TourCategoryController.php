@@ -20,8 +20,6 @@ class TourCategoryController extends BaseController
 
     public function index()
     {
-        // return cleanAccents();
-
         $array = array(
             'sortBy' => request()->sortBy ?? 'created_at',
             'orderBy' => request()->orderBy ?? 'desc',
@@ -30,39 +28,37 @@ class TourCategoryController extends BaseController
             'cate_name',
             'slug'
         );
+        $pageSize = request()->pageSize ? (int) request()->pageSize : 5;
 
         return TourCategoryResource::collection(
-            querySearch(TourCategory::class, request()->q, $array, $columnSearch, 5)
+            querySearch(TourCategory::class, request()->q, $array, $columnSearch, $pageSize)
         );
     }
 
     public function store(TourCategoryRequest $request)
     {
         $request['slug'] = Str::slug($request->cate_name);
-        $tourCategory = $this->tourCategory->create($request->all());
+        $tourCategory = TourCategory::create($request->all());
 
         return $this->respondData(new TourCategoryResource($tourCategory), Response::HTTP_CREATED);
     }
 
-    public function show($id)
+    public function show(TourCategory $tourCategory)
     {
-        return $this->respondData(
-            new TourCategoryResource($this->tourCategory->findOrFail($id))
-        );
+        return $this->respondData(new TourCategoryResource($tourCategory));
     }
 
-    public function update(TourCategoryRequest $request, $id)
+    public function update(TourCategoryRequest $request, TourCategory $tourCategory)
     {
         $request['slug'] = Str::slug($request->cate_name);
-        $tourCategory = $this->tourCategory->findOrFail($id);
         $tourCategory->update($request->all());
 
         return $this->respondData(new TourCategoryResource($tourCategory), Response::HTTP_ACCEPTED);
     }
 
-    public function destroy($id)
+    public function destroy(TourCategory $tourCategory)
     {
-        $this->tourCategory->findOrFail($id)->delete();
+        $tourCategory->delete();
 
         return $this->respondSuccess(config('message.delete_success'));
     }

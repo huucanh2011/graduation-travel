@@ -9,12 +9,7 @@
         height: '100%'
       }"
     >
-      <a-form
-        :form="form"
-        layout="vertical"
-        @submit.prevent="handleSubmitForm"
-        hideRequiredMark
-      >
+      <a-form :form="form" layout="vertical" @submit.prevent="handleSubmitForm" hideRequiredMark>
         <a-form-item class="mb-1" label="Tiêu đề">
           <a-input
             v-decorator="[
@@ -41,70 +36,38 @@
           />
         </a-form-item>
         <a-form-item class="mb-1" label="Mô tả">
-          <a-textarea
-            v-decorator="['description']"
-            placeholder="Nhập mô tả"
-            :autosize="{ minRows: 2, maxRows: 2 }"
-          />
+          <a-textarea v-decorator="['description']" placeholder="Nhập mô tả" :autosize="{ minRows: 2, maxRows: 2 }" />
         </a-form-item>
         <a-form-item v-if="!imagePreview" class="mb-1">
-          <a-input
-            type="file"
-            ref="imageSlide"
-            accept="image/*"
-            :style="{ display: 'none' }"
-            @change="onChangeImage"
-          >
-          </a-input>
-          <a-button type="dashed" icon="picture" @click="onClickUpload" block
-            >Image</a-button
-          >
+          <a-input type="file" ref="imageSlide" accept="image/*" :style="{ display: 'none' }" @change="onChangeImage"> </a-input>
+          <a-button type="dashed" icon="picture" @click="onClickUpload" block>Image</a-button>
         </a-form-item>
         <div v-else class="mb-3">
           <div :style="{ width: '370px', margin: '0 auto' }">
             <img :src="imagePreview" class="rounded w-100" />
           </div>
         </div>
-        <a-form-item
-          :label-col="{ span: 3 }"
-          :wrapper-col="{ span: 21 }"
-          class="mb-1"
-          label="Active"
-        >
-          <a-switch v-decorator="['is_active']" size="small" v-model="checked">
-          </a-switch>
+        <a-form-item :label-col="{ span: 3 }" :wrapper-col="{ span: 21 }" class="mb-1" label="Active">
+          <a-switch v-decorator="['is_active']" size="small" v-model="checked"> </a-switch>
         </a-form-item>
 
         <div class="drawer-footer">
           <div class="flex-drawer-footer">
             <div>
-              <a-button
-                v-if="imagePreview"
-                icon="close"
-                type="dashed"
-                @click="onClearImage"
-                >Clear</a-button
-              >
+              <a-button v-if="imagePreview" icon="close" type="dashed" @click="onClearImage">Clear</a-button>
             </div>
             <div>
               <a-button :style="{ marginRight: '8px' }" @click="onClose">
                 Hủy
               </a-button>
-              <a-button type="primary" html-type="submit" icon="save"
-                >Lưu</a-button
-              >
+              <a-button type="primary" html-type="submit" icon="save">Lưu</a-button>
             </div>
           </div>
         </div>
       </a-form>
     </a-drawer>
 
-    <crop-image
-      :visibleModal="visibleModal"
-      :imageUrl="imageUrl"
-      @onCloseModal="onCloseModal"
-      @getImage="getImage"
-    ></crop-image>
+    <crop-image :visibleModal="visibleModal" :imageUrl="imageUrl" @onCloseModal="onCloseModal" @getImage="getImage"></crop-image>
   </div>
 </template>
 

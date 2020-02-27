@@ -29,45 +29,42 @@ class UserController extends BaseController
             'email',
             'name'
         );
+        $pageSize = request()->pageSize ? (int) request()->pageSize : 5;
 
         return UserResource::collection(
-            querySearch(User::class, request()->q, $array, $columnSearch, 10)
+            querySearch(User::class, request()->q, $array, $columnSearch, $pageSize)
         );
     }
 
     public function store(CreateUserRequest $request)
     {
-        $user = $this->user->create($request->all());
+        $user = User::create($request->all());
 
         return $this->respondData(new UserResource($user), Response::HTTP_CREATED);
     }
 
-    public function show($id)
+    public function show(User $user)
     {
-        return $this->respondData(
-            new UserResource($this->user->findOrFail($id))
-        );
+        return $this->respondData(new UserResource($user));
     }
 
-    public function update(UpdateUserRequest $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $user = $this->user->findOrFail($id);
         $user->update($request->all());
 
         return $this->respondData(new UserResource($user), Response::HTTP_ACCEPTED);
     }
 
-    public function updateActive(Request $request, $id)
-    {
-        $user = $this->user->findOrFail($id);
+    public function updateActive(Request $request, User $user)
+    {        
         $user->update($request->only('is_active'));
 
         return $this->respondData(new UserResource($user), Response::HTTP_ACCEPTED);
     }
 
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $this->user->findOrFail($id)->delete();
+        $user->delete();
 
         return $this->respondSuccess(config('message.delete_success'));
     }

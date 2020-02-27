@@ -44,12 +44,7 @@
         let params = {
           page: pagination.current,
           sortBy: sorter.field,
-          orderBy:
-            sorter.order === "ascend"
-              ? "asc"
-              : sorter.order === "descend"
-              ? "desc"
-              : undefined,
+          orderBy: sorter.order === "ascend" ? "asc" : sorter.order === "descend" ? "desc" : undefined,
           keyword: this.keyword
         };
         this.fetch(params);

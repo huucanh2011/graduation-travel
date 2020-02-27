@@ -84,22 +84,13 @@
               ]"
               placeholder="Vui lòng nhập mật khẩu"
             />
-            <a-alert
-              v-else
-              message="Bạn không thể cập nhật mật khẩu"
-              type="info"
-              showIcon
-            />
+            <a-alert v-else message="Bạn không thể cập nhật mật khẩu" type="info" showIcon />
           </a-form-item>
         </a-col>
       </a-row>
 
       <a-form-item class="mb-1" label="Địa chỉ">
-        <a-textarea
-          v-decorator="['address']"
-          placeholder="Vui lòng nhập địa chỉ"
-          :autosize="{ minRows: 3, maxRows: 5 }"
-        />
+        <a-textarea v-decorator="['address']" placeholder="Vui lòng nhập địa chỉ" :autosize="{ minRows: 3, maxRows: 5 }" />
       </a-form-item>
       <a-row :gutter="16">
         <a-col :span="12">
@@ -118,11 +109,7 @@
               <div class="ant-upload-text">Upload</div>
             </div>
           </a-upload>
-          <a-modal
-            :visible="previewVisible"
-            :footer="null"
-            @cancel="handleCancel"
-          >
+          <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
             <img alt="previewImage" style="width: 100%" :src="previewImage" />
           </a-modal>
         </a-col>
@@ -138,12 +125,7 @@
               allowClear
               placeholder="Chọn quyền"
             >
-              <a-select-option
-                v-for="role in roles"
-                :key="role.id"
-                :value="role.id"
-                >{{ role.name }}</a-select-option
-              >
+              <a-select-option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name }}</a-select-option>
             </a-select>
           </a-form-item>
           <a-form-item class="mb-1" label="Active">

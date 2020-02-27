@@ -1,11 +1,5 @@
 <template>
-  <a-drawer
-    :title="title"
-    :width="width"
-    :visible="visible"
-    :wrapStyle="{ height: '100%' }"
-    @close="close"
-  >
+  <a-drawer :title="title" :width="width" :visible="visible" :wrapStyle="{ height: '100%' }" @close="close">
     <slot></slot>
     <div class="drawer-footer">
       <a-button :style="{ marginRight: '8px' }" @click="close">

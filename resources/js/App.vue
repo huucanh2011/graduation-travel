@@ -27,7 +27,6 @@
       this.$router.afterEach((to, from) => {
         this.$Progress.finish();
       });
-
     }
   };
 </script>

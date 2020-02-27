@@ -1,17 +1,8 @@
 <template>
   <a-card title="Danh sách đánh giá tour" :bordered="false">
     <div slot="extra">
-      <a-button
-        icon="sync"
-        :style="{ marginLeft: '8px' }"
-        @click="onReset"
-      ></a-button>
-      <a-input-search
-        placeholder="Tìm kiếm..."
-        v-model="keyword"
-        @search="onSearch"
-        style="margin-left: 8px; width: 250px;"
-      />
+      <a-button icon="sync" :style="{ marginLeft: '8px' }" @click="onReset"></a-button>
+      <a-input-search placeholder="Tìm kiếm..." v-model="keyword" @search="onSearch" style="margin-left: 8px; width: 250px;" />
     </div>
 
     <a-table
@@ -29,18 +20,10 @@
         </span>
       </template>
       <template slot="active" slot-scope="record">
-        <a-checkbox
-          @change="onChangeActive"
-          :defaultChecked="record.is_active"
-          :value="record.id"
-        ></a-checkbox>
+        <a-checkbox @change="onChangeActive" :defaultChecked="record.is_active" :value="record.id"></a-checkbox>
       </template>
       <template slot="action" slot-scope="record">
-        <a-popconfirm
-          v-if="ratings.length"
-          title="Bạn có chắc chắn?"
-          @confirm="onDelete(record.id)"
-        >
+        <a-popconfirm v-if="ratings.length" title="Bạn có chắc chắn?" @confirm="onDelete(record.id)">
           <a-button type="dashed" size="small">
             <a-icon type="delete"></a-icon>
           </a-button>
@@ -151,12 +134,7 @@
         let params = {
           page: pagination.current,
           sortBy: sorter.field,
-          orderBy:
-            sorter.order === "ascend"
-              ? "asc"
-              : sorter.order === "descend"
-              ? "desc"
-              : undefined,
+          orderBy: sorter.order === "ascend" ? "asc" : sorter.order === "descend" ? "desc" : undefined,
           keyword: this.keyword
         };
         this.fetch(params);

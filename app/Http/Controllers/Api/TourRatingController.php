@@ -24,11 +24,12 @@ class TourRatingController extends BaseController
             'orderBy' => request()->orderBy ?? 'desc',
         );
         $columnSearch = array(
-            'rating_content'
+            'content'
         );
+        $pageSize = request()->pageSize ? (int) request()->pageSize : 5;
 
         return TourRatingResource::collection(
-            querySearch(TourRating::class, request()->q, $array, $columnSearch, 10)
+            querySearch(TourRating::class, request()->q, $array, $columnSearch, $pageSize)
         );
     }
 
@@ -42,17 +43,16 @@ class TourRatingController extends BaseController
         //
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, TourRating $tourRating)
     {
-        $tourRating = $this->tourRating->findOrFail($id);
         $tourRating->update($request->only('is_active'));
 
         return $this->respondData(new TourRatingResource($tourRating), Response::HTTP_ACCEPTED);
     }
 
-    public function destroy($id)
+    public function destroy(TourRating $tourRating)
     {
-        $this->tourRating->findOrFail($id)->delete();
+        $tourRating->delete();
 
         return $this->respondSuccess(config('message.delete_success'));
     }

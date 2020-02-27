@@ -35,11 +35,7 @@
           <a-icon type="edit"></a-icon>
         </a-button>
         <a-divider type="vertical" />
-        <a-popconfirm
-          v-if="users.length"
-          title="Bạn có chắc chắn?"
-          @confirm="onDelete(record.id)"
-        >
+        <a-popconfirm v-if="users.length" title="Bạn có chắc chắn?" @confirm="onDelete(record.id)">
           <a-button type="dashed" size="small">
             <a-icon type="delete"></a-icon>
           </a-button>
@@ -50,12 +46,7 @@
 </template>
 
 <script>
-  import {
-    isNotNull,
-    tagColor,
-    colorActive,
-    cleanAccents
-  } from "@/helpers/tools";
+  import { isNotNull, tagColor, colorActive, cleanAccents } from "@/helpers/tools";
   import { mapActions, mapGetters } from "vuex";
   import CardTable from "@/components/card/CardTable";
   export default {
@@ -171,12 +162,7 @@
         let params = {
           page: pagination.current,
           sortBy: sorter.field,
-          orderBy:
-            sorter.order === "ascend"
-              ? "asc"
-              : sorter.order === "descend"
-              ? "desc"
-              : undefined,
+          orderBy: sorter.order === "ascend" ? "asc" : sorter.order === "descend" ? "desc" : undefined,
           keyword: this.keyword
         };
         this.fetch(params);

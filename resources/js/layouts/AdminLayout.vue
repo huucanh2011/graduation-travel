@@ -8,8 +8,7 @@
       </a-layout-content>
       <a-layout-footer style="text-align: center">
         Made with
-        <a-icon type="heart" theme="twoTone" twoToneColor="#eb2f96" /> by Huu
-        Canh ©{{ new Date().getFullYear() }}
+        <a-icon type="heart" theme="twoTone" twoToneColor="#eb2f96" /> by Huu Canh ©{{ new Date().getFullYear() }}
       </a-layout-footer>
     </a-layout>
   </a-layout>
